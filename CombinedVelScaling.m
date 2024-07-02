@@ -365,7 +365,7 @@ close all;
 
 % Viscous Scaling
 figure();
-subplot(1,3,1);
+subplot(1,2,1);
 for i = 2:Np60
     semilogx(P60toP24_y{i}./P60toP24_dnu(i),...
         P60toP24_U{i}./P60toP24_utau2(i),'+','MarkerSize',8,...
@@ -383,7 +383,7 @@ set(gca,'FontSize',16);
 xlabel('$z^+$','FontSize',18);
 ylabel('$U^+$','FontSize',18);
 
-subplot(1,3,2);
+subplot(1,2,2);
 for i = 2:Np60
     thisP60U = P60toP24_U{i};
     plot(thisP60U./P60toP24_Uinf,P60toP24_ydelta{i},'+','MarkerSize',8,...
@@ -405,7 +405,26 @@ ylabel('$z/\delta$','FontSize',18);
 xlabel('$U/U_\infty$','FontSize',18);
 
 
-subplot(1,3,3);
+figure();
+for i = 2:Np60
+    thisP60U = P60toP24_U{i};
+    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
+        'Color',P60toP24_Colors(i)); hold on;
+end
+for i = 1:Li_N
+    thisZ = Li_zdel99{i};
+    plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
+        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
+end
+for i = 2:N_u-1
+    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
+        'Color',Cooke_Colors(i)); hold on
+end
+set(gca,'FontSize',16);
+ylabel('$z/\delta_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',18);
+
+figure();
 for i = 2:Np60
     thisP60U = P60toP24_U{i};
     plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
