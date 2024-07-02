@@ -11,7 +11,7 @@ set(0,'defaultTextInterpreter','latex');
 
 %% Load Dune Field Data
 
-myDir = dir('./Experimental Data/Cooke et al 2024/Sept13/x*');
+myDir = dir('./ExperimentalData/Cooke et al 2024/Sept13/x*');
 
 Ndir = length(myDir);
 
@@ -50,7 +50,7 @@ end
 
 clear my* Ndir i* data
 
-myDir = dir('./Experimental Data/Cooke et al 2024/SWSSData/SWSS*');
+myDir = dir('./ExperimentalData/Cooke et al 2024/SWSSData/SWSS*');
 
 surf_N = length(myDir);
 

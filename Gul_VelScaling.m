@@ -8,7 +8,7 @@ set(0,'defaultTextInterpreter','latex');
 
 %% Load Data
 
-genData = load('./Experimental Data/Gul 2022/generalData.txt');
+genData = load('./ExperimentalData/Gul 2022/generalData.txt');
 
 % P24 to S row 1
 % P60 to P24 row 2
@@ -23,12 +23,12 @@ P60toP24_Uinf = genData(7,1);
 P60toP24_utau1 = genData(7,2);
 P60toP24_delta0 = genData(7,3);
 
-P24toS_data = load('./P24toS/P24toS.txt');
+P24toS_data = load('./ExperimentalData/Gul 2022/P24toS/P24toS.txt');
 P24toS_xhat = P24toS_data(:,1);
 P24toS_dibl = P24toS_data(:,2).*P24toS_delta0;
 P24toS_utau2 = P24toS_data(:,3).*P24toS_utau1;
 
-myDir = dir('./Experimental Data/Gul 2022/P24toS/xhat*');
+myDir = dir('./ExperimentalData/Gul 2022/P24toS/xhat*');
 
 N = length(P24toS_xhat);
 
@@ -47,12 +47,12 @@ end
 
 clear this*
 
-P60toP24_data = load('./Experimental Data/Gul 2022/P60toP24/P60toP24.txt');
+P60toP24_data = load('./ExperimentalData/Gul 2022/P60toP24/P60toP24.txt');
 P60toP24_xhat = P60toP24_data(2:end,1);
 P60toP24_dibl = P60toP24_data(2:end,2).*P60toP24_delta0;
 P60toP24_utau2 = P60toP24_data(2:end,3).*P60toP24_utau1;
 
-myDir = dir('./Experimental Data/Gul 2022/P60toP24/xhat*');
+myDir = dir('./ExperimentalData/Gul 2022/P60toP24/xhat*');
 
 Np60 = length(P60toP24_xhat);
 
