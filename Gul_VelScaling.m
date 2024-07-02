@@ -11,7 +11,7 @@ set(0,'defaultTextInterpreter','latex');
 genData = load('./ExperimentalData/Gul 2022/generalData.txt');
 
 % P24 to S row 1
-% P60 to P24 row 2
+% P60 to P24 row 7
 
 % P24 to Smooth
 P24toS_Uinf = genData(1,1);
