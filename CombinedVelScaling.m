@@ -8,18 +8,18 @@ set(0,'defaultTextInterpreter','latex');
 
 %% Load Gul Data
 
-genData = load('./Gul 2022/generalData.txt');
+genData = load('./ExperimentalData/Gul 2022/generalData.txt');
 
 P24toS_Uinf = genData(1,1);
 P24toS_utau1 = genData(1,2);
 P24toS_delta0 = genData(1,3);
 
-P24toS_data = load('./Gul 2022/P24toS/P24toS.txt');
+P24toS_data = load('./ExperimentalData/Gul 2022/P24toS/P24toS.txt');
 P24toS_xhat = P24toS_data(:,1);
 P24toS_dibl = P24toS_data(:,2).*P24toS_delta0;
 P24toS_utau2 = P24toS_data(:,3).*P24toS_utau1;
 
-myDir = dir('./Gul 2022/P24toS/xhat*');
+myDir = dir('./ExperimentalData/Gul 2022/P24toS/xhat*');
 
 P24toS_N = length(P24toS_xhat);
 
@@ -40,7 +40,7 @@ clear this*
 
 %% Load Li Data
 
-BL_Data = load('./Li et al 2021/Re07ks16/Re07ks16_BL');
+BL_Data = load('./ExperimentalData/Li et al 2021/Re07ks16/Re07ks16_BL');
 
 Li_xhat = BL_Data(:,1);
 Li_Uinfty = BL_Data(:,2);
@@ -48,7 +48,7 @@ Li_utau = BL_Data(:,3);
 P24toS_nu = BL_Data(:,4);
 Li_delta99 = BL_Data(:,end);
 
-myDir = dir('./Li et al 2021/Re07ks16/Re07ks16_xhat*');
+myDir = dir('./ExperimentalData/Li et al 2021/Re07ks16/Re07ks16_xhat*');
 
 Li_N = length(myDir);
 
@@ -142,7 +142,7 @@ end
 
 %% Load Dune Field Data
 
-myDir = dir('/home/jpcooke/Desktop/Research/Dunes/Quadrant Analysis/Data/Sept13/x*');
+myDir = dir('./ExperimentalData/Cooke et al 2024/Sept13/x*');
 
 Ndir = length(myDir);
 
@@ -181,7 +181,7 @@ end
 
 clear my* Ndir i* data
 
-myDir = dir('/home/jpcooke/Desktop/Research/Dunes/Amplitude Modulation/DuneField/WSS/SWSS*');
+myDir = dir('./ExperimentalData/Cooke et al 2024/SWSSData/SWSS*');
 
 surf_N = length(myDir);
 
