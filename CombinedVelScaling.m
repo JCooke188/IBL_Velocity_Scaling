@@ -359,7 +359,7 @@ Cooke_Colors = ["#bbaeef",'#b2a1ea','#a994e4','#a187de','#997bd8','#926dd1',...
 
 
 
-%% Plot everything
+%% Plot Velocity Profiles on Single Plots
 
 close all;
 
@@ -445,6 +445,86 @@ set(gca,'FontSize',16);
 ylabel('$z/\delta_i$','FontSize',18);
 xlabel('$U/U_i$','FontSize',18);
 
+
+%% Plot Velocity Profiles in Sub-Plots
+
+% 3x2 figure like:
+% Cooke Viscous; Cooke Outer
+% Gul Viscous; Gul Outer
+% Li Viscous; Li Outer
+
+close all;
+
+figure();
+tiledlayout(3,2)
+p1 = nexttile;
+for i = 2:N_u-1
+    semilogx(z./(nu/utau(i)),U{i}./utau(i),'^','MarkerSize',8,...
+        'Color',Cooke_Colors(i)); hold on
+end
+set(gca,'FontSize',16);
+grid on;
+% xlabel('$z^+$');
+ylabel('$U^+$','FontSize',18);
+
+p2 = nexttile;
+for i = 2:N_u-1
+    plot(U{i}./max(U{i}),zdelta,'^','MarkerSize',8,...
+        'Color',Cooke_Colors(i)); hold on
+end
+set(gca,'FontSize',16);
+grid on;
+xlim([0 1]);
+ylim([0 1]);
+% xlabel('$z/\delta$');
+ylabel('$U/U_\infty$','FontSize',18);
+
+p3 = nexttile;
+for i = 2:Np60
+    semilogx(P60toP24_y{i}./P60toP24_dnu(i),...
+        P60toP24_U{i}./P60toP24_utau2(i),'+','MarkerSize',8,...
+        'Color',P60toP24_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+% xlabel('$z^+$');
+ylabel('$U^+$','FontSize',18);
+
+p4 = nexttile;
+for i = 2:Np60
+    thisP60U = P60toP24_U{i};
+    plot(thisP60U./P60toP24_Uinf,P60toP24_ydelta{i},'+','MarkerSize',8,...
+        'Color',P60toP24_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+xlim([0 1]);
+ylim([0 1]);
+% xlabel('$z/\delta$');
+ylabel('$U/U_\infty$','FontSize',18);
+
+p5 = nexttile;
+for i = 1:Li_N
+    semilogx(Li_zplus{i},Li_Uplus{i},'o','MarkerSize',8,...
+        'Color',Li_7k_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+xlabel('$z^+$');
+ylabel('$U^+$','FontSize',18);
+
+p6 = nexttile;
+for i = 1:Li_N
+    thisZ = Li_zdel99{i};
+    plot(Li_U{i}./Li_Uinfty(i),thisZ,...
+        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+xlim([0 1]);
+ylim([0 1]);
+grid on;
+xlabel('$z/\delta$');
+ylabel('$U/U_\infty$','FontSize',18);
 
 
 
