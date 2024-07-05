@@ -669,7 +669,7 @@ legend([p1 p2 p3],{'Gul 2022 Expt. $R \rightarrow S$',...
 
 % Wake Parameter PI - Chosen based on downstream roughness
 smoothPI = 0.55;
-roughPI = 0.7;
+roughPI = 0.55; %%%% Could also do 0.70 
 
 % Von Karman Constant
 cookeKappa = 0.41;
