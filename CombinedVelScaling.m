@@ -293,7 +293,7 @@ Nx = length(xhat);
 myColors = [ "black", "#daf8e3", "#97ebdb", "#00c2c7", "#0086ad", "#005582", ...
     "#ffc100", "#ff9a00", "#ff7400", "#bf0000" ];
 
-%% Wall Stress
+%% Cooke Data Wall Stress
 
 % Want to create a spanwise averaged u_tau for each xhat
 
@@ -309,7 +309,7 @@ end
 
 utau = [utau_taubar(1), utau_taubar];
 
-%% Create Averages
+%% Create Averages for Cooke Velocity
 
 N_u = length(u);
 N_w = length(w);
@@ -334,7 +334,7 @@ end
     
 clear temp*
 
-%% Find U_infty at z(\delta_i)
+%% Find U_infty at z(\delta_i) for Cooke data
 
 for i = 1:Nx-1
     
@@ -344,18 +344,31 @@ for i = 1:Nx-1
 end
 
 
-%% Colors
+%% Colors for plotting
+
+% Orig starting color for y-b gradient - wasn't showing - "#fbff2b" 
 
 % Gul Colors
-P60toP24_Colors = ["white","#e8ffe0",'#bae1ac','#8cc27a','#5ea548','#288708'];
+P60toP24_Colors = ["White","#babd00","#00de69","#00999c","#00627f",...
+    "#0b1b84"]; % Yellow to Blue Gradient 
+%["white","#e8ffe0",'#bae1ac','#8cc27a','#5ea548','#288708']; % Green
+%Gradient
+
 
 % Li Colors
-Li_7k_Colors = ["#b8dbff",'#a5c8f1','#92b5e2','#81a2d4','#708fc5',...
-    '#607db7','#516ba8','#435999','#36488b','#29377c','#1c266c','#0e165d'];
+Li_7k_Colors = ["#babd00","#b0f736","#57ea52","#00d776","#00bd93",...
+    "#00a49c","#008e9a","#007a91","#006783","#005575","#004370",...
+    "#0b1b84"]; % Yellow to Blue Gradient 
+
+        %["#b8dbff",'#a5c8f1','#92b5e2','#81a2d4','#708fc5',...
+    %'#607db7','#516ba8','#435999','#36488b','#29377c','#1c266c','#0e165d']; % Blue Gradient
 
 % Cooke Colors
-Cooke_Colors = ["#bbaeef",'#b2a1ea','#a994e4','#a187de','#997bd8','#926dd1',...
-    '#8a60ca','#8353c3','#7c44bc','#7635b4','#6f24ac','#690aa4'];
+Cooke_Colors = ["White","#babd00","#92f240","#00de69","#00b995","#00999c",...
+    "#007c92","#00627f","#004a70","#0b1b84","White"]; % Yellow to Blue Gradient
+
+        % ["#bbaeef",'#b2a1ea','#a994e4','#a187de','#997bd8','#926dd1',...
+   % '#8a60ca','#8353c3','#7c44bc','#7635b4','#6f24ac','#690aa4']; % Purple Gradient
 
 
 
@@ -526,9 +539,83 @@ grid on;
 xlabel('$z/\delta$');
 ylabel('$U/U_\infty$','FontSize',18);
 
+%% IBL Figures to Create Insets
+
+figure();
+tiledlayout(3,1);
+p1 = nexttile;
+for i = 2:Np60
+    thisP60U = P60toP24_U{i};
+    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
+        'Color',P60toP24_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+xlim([0 1]);
+ylim([0 1]);
+ylabel('$z/\delta_i$','FontSize',18);
+%xlabel('$U/U_i$','FontSize',18);
+
+p2 = nexttile;
+for i = 1:Li_N
+    thisZ = Li_zdel99{i};
+    plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
+        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+xlim([0 1]);
+ylim([0 1]);
+ylabel('$z/\delta_i$','FontSize',18);
+%xlabel('$U/U_i$','FontSize',18);
+
+p3 = nexttile;
+for i = 2:N_u-1
+    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
+        'Color',Cooke_Colors(i)); hold on
+end
+set(gca,'FontSize',16);
+grid on;
+xlim([0 1]);
+ylim([0 1]);
+ylabel('$z/\delta_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',18);
+
+figure();
+for i = 2:Np60
+    thisP60U = P60toP24_U{i};
+    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
+        'Color',P60toP24_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+ylabel('$z/\delta_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',18);
+
+figure();
+for i = 1:Li_N
+    thisZ = Li_zdel99{i};
+    plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
+        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+ylabel('$z/\delta_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',18);
+
+figure();
+for i = 2:N_u-1
+    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
+        'Color',Cooke_Colors(i)); hold on
+end
+set(gca,'FontSize',16);
+grid on;
+ylabel('$z/\delta_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',18);
 
 
-%% Velocity Defect Plot
+
+%% Combined Velocity Defect Plot
 
 close all;
 
@@ -542,7 +629,7 @@ for i = 1:Li_N
     semilogx(Li_zdel99{i},Li_UvelDef{i},'-.','LineWidth',2,...
         'Color','#0094ab'); hold on;
 end
-for i = 1:N_u-1
+for i = 2:N_u-1
     semilogx(z./delta,(U{i}(end) - U{i})./utau(i),'--','LineWidth',2,...
         'Color','#70fa97'); hold on
 end
@@ -566,7 +653,7 @@ for i = 1:Li_N
     p2 = semilogx(thisZ.*Li_delta99(i)./Li_deltai(i),thisLi_Defect,...
         '-.','LineWidth',2,'Color','#0094ab'); hold on;
 end
-for i = 1:N_u-1
+for i = 2:N_u-1
     p3 = semilogx(z./delta_ibl_withAF(i),(U_infty_i(i) - U{i})./utau(i),'--','LineWidth',2,...
         'Color','#70fa97'); hold on
 end
@@ -576,5 +663,146 @@ ylabel('$(U_\infty(z=\delta_i) - \langle U \rangle)/u_\tau)$','FontSize',18);
 legend([p1 p2 p3],{'Gul 2022 Expt. $R \rightarrow S$',...
     'Li 2021 Expt $R \rightarrow S$','Cooke WMLES 2024 $S \rightarrow R$'},...
     'Interpreter','Latex');
+
+%% Velocity defect 
+
+% Wake Parameter PI - Chosen based on downstream roughness
+smoothPI = 0.55;
+roughPI = 0.7;
+
+% Von Karman Constant
+cookeKappa = 0.41;
+gulKappa = 0.39;
+liKappa = 0.4;
+
+% Define y/delta input for wake function
+cookeYD = zdelta;
+cookeYDi = z./delta_ibl_withAF(end);
+
+gulYD = P60toP24_ydelta{end};
+gulYDi = P60toP24_yibl{end};
+
+liYD = Li_zdel99{end};
+liYDi = Li_zdel99{end}.*Li_delta99(end)./Li_deltai(end);
+
+% Cutoff YDi to only have just beyond the IBL height
+ii = find(cookeYDi >= 1.2, 1);
+cookeYDi = cookeYDi(1:ii);
+
+ii = find(gulYDi >= 1.2,1);
+gulYDi = gulYDi(1:ii);
+
+ii = find(liYDi >= 1.2,1);
+liYDi = liYDi(1:ii);
+
+% Calculate wake defect law functions
+cookeWakeIBL = defectLaw(cookeKappa,roughPI,cookeYDi);
+cookeWake = defectLaw(cookeKappa,roughPI,cookeYD);
+
+gulWakeIBL = defectLaw(gulKappa,roughPI,gulYDi);
+gulWake = defectLaw(gulKappa,roughPI,gulYD);
+
+liWakeIBL = defectLaw(liKappa,smoothPI,liYDi);
+liWake = defectLaw(liKappa,smoothPI,liYD);
+    
+%% Calc velocity defect for Li with IBL
+
+for j = 1:Li_N
+    thisVel = Li_U{j};
+    Li_velDefect{j} = (Li_Udeltai(j) - thisVel)./Li_utau(j);
+end
+
+
+%% Individual Velocity Defect Plots
+
+% 3x2 again
+% Cooke: Classic; IBL
+% Gul:   Classic; IBL
+% Li:    Classic; IBL
+
+close all;
+
+figure();
+tiledlayout(3,2)
+p1 = nexttile;
+for i = 2:N_u-1
+   
+    semilogx(z./delta,(U{i}(end) - U{i})./utau(i),...
+        '^','MarkerSize',8,'Color',Cooke_Colors(i)); hold on
+end
+semilogx(zdelta,cookeWake,'k--','LineWidth',3);
+set(gca,'FontSize',16);
+grid on;
+ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',18)
+
+p2 = nexttile;
+for i = 2:N_u-1
+   
+    semilogx(z./delta_ibl_withAF(i),(U_infty_i(i) - U{i})./utau(i),...
+        '^','MarkerSize',8,'Color',Cooke_Colors(i)); hold on
+end
+semilogx(cookeYDi,cookeWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',16);
+grid on;
+ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
+xlim([0 1]);
+
+p3 = nexttile;
+for i = 2:Np60
+    semilogx(P60toP24_ydelta{i},...
+        P60toP24_velDefect{i}.*(P60toP24_utau1/P60toP24_utau2(i)),...
+        '+','MarkerSize',8,'Color',P60toP24_Colors(i)); hold on
+end
+semilogx(gulYD,gulWake,'k--','LineWidth',3);
+set(gca,'FontSize',16);
+grid on;
+ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',18);
+
+p4 = nexttile;
+for i = 2:Np60
+    thisVel = P60toP24_U{i};
+    thisDefect = (P60toP24_UinftyIBL(i) - thisVel)./P60toP24_utau2(i);
+    
+    semilogx(P60toP24_yibl{i},thisDefect,...
+        '+','MarkerSize',8,'Color',P60toP24_Colors(i-1)); hold on
+end
+% ylim([0 5]);
+semilogx(gulYDi,gulWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',16);
+grid on;
+ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
+xlim([10^-1 1]);
+
+p5 = nexttile;
+for i = 1:Li_N
+    p1 = semilogx(Li_zdel99{i},Li_UvelDef{i},'o','MarkerSize',8,...
+        'Color',Li_7k_Colors(i)); hold on
+end
+semilogx(liYD,liWake,'k--','LineWidth',3);
+set(gca,'FontSize',16);
+grid on;
+ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',18)
+xlabel('$z/\delta$','FontSize',18);
+
+p6 = nexttile;
+for i = 1:Li_N
+    thisZ = Li_zdel99{i}.*Li_delta99(i)./Li_deltai(i);
+    thisDefect = (Li_Udeltai(i) - Li_U{i})./Li_utau(i);
+    semilogx(thisZ,thisDefect,'o','MarkerSize',8,...
+        'Color',Li_7k_Colors(i)); hold on
+end
+semilogx(liYDi,liWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',16);
+xlim([0 1]);
+grid on;
+xlabel('$z/\delta_i$','FontSize',18);
+ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
+
+%% Functions
+
+function wake = defectLaw(kappa,myPI,yd)
+    wake =  (1/kappa)*( -1*log(yd) + myPI*(2 - 2*(sin((pi()/2)*yd).^2)));
+end
+
 
 %%
