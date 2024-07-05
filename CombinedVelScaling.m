@@ -542,34 +542,8 @@ ylabel('$U/U_\infty$','FontSize',18);
 %% IBL Figures to Create Insets
 
 figure();
-tiledlayout(3,1);
+tiledlayout(1,3);
 p1 = nexttile;
-for i = 2:Np60
-    thisP60U = P60toP24_U{i};
-    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
-        'Color',P60toP24_Colors(i)); hold on;
-end
-set(gca,'FontSize',16);
-grid on;
-xlim([0 1]);
-ylim([0 1]);
-ylabel('$z/\delta_i$','FontSize',18);
-%xlabel('$U/U_i$','FontSize',18);
-
-p2 = nexttile;
-for i = 1:Li_N
-    thisZ = Li_zdel99{i};
-    plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
-        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
-end
-set(gca,'FontSize',16);
-grid on;
-xlim([0 1]);
-ylim([0 1]);
-ylabel('$z/\delta_i$','FontSize',18);
-%xlabel('$U/U_i$','FontSize',18);
-
-p3 = nexttile;
 for i = 2:N_u-1
     plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
         'Color',Cooke_Colors(i)); hold on
@@ -580,6 +554,33 @@ xlim([0 1]);
 ylim([0 1]);
 ylabel('$z/\delta_i$','FontSize',18);
 xlabel('$U/U_i$','FontSize',18);
+
+p2 = nexttile;
+for i = 2:Np60
+    thisP60U = P60toP24_U{i};
+    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
+        'Color',P60toP24_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+xlim([0 1]);
+ylim([0 1]);
+% ylabel('$z/\delta_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',18);
+
+p3 = nexttile;
+for i = 1:Li_N
+    thisZ = Li_zdel99{i};
+    plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
+        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
+end
+set(gca,'FontSize',16);
+grid on;
+xlim([0 1]);
+ylim([0 1]);
+% ylabel('$z/\delta_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',18);
+
 
 figure();
 for i = 2:Np60
