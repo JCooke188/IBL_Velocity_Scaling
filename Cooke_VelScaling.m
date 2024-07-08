@@ -733,50 +733,72 @@ title('ZS Scaling with IBL Parameters');
 
 %% Plot RSS
 
-% close all;
-% 
+close all;
+
+Cooke_Colors = ["White","#babd00","#92f240","#00de69","#00b995","#00999c",...
+    "#007c92","#00627f","#004a70","#0b1b84","White"]; % Yellow to Blue Gradient
+
 % myColors = ["#daf8e3", "#97ebdb", "#00c2c7", "#0086ad", "#005582", ...
 %     "#ffc100", "#ff9a00", "#ff7400", "#bf0000" ];
-% 
-% delta_ibl = [0.06356,0.1665,0.1665,0.1373,0.1372,0.2968,0.4362,...
-%     0.4362,0.5289].*delta;
-% 
-% uw_plot = cell2mat(UW');
-% 
+
+delta_ibl = [0.06356,0.1665,0.1665,0.1373,0.1372,0.2968,0.4362,...
+    0.4362,0.5289].*delta;
+
+uw_plot = cell2mat(UW');
+
+figure();
+tiledlayout(1,2);
+p1 = nexttile;
+%plot(uw_plot(1,:),z,'k--','LineWidth',2); hold on;
+for i = 2:10
+    if i == 2
+        plot(uw_plot(i,:),z,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    else
+        plot(uw_plot(i,:),z,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    end
+end
+set(gca,'FontName','SansSerif','FontSize',20);
+ylabel('$z$','FontName','SansSerif','FontSize',24);
+xlabel('$\langle u^\prime w^\prime \rangle$','FontName','SansSerif','FontSize',24);
+ylim([0 300]);
+legend({'$\hat{x}_1$','$\hat{x}_2$','$\hat{x}_3$',...
+    '$\hat{x}_4$','$\hat{x}_5$','$\hat{x}_6$','$\hat{x}_7$',...
+    '$\hat{x}_8$','$\hat{x}_9$'},'Interpreter','Latex',...
+    'Location','NorthWest','NumColumns',3,'FontSize',18);
+
+
+uw_plot2 = uw_plot(2:end,:);
+
+p2 = nexttile;
 % figure();
-% %plot(uw_plot(1,:),z,'k--','LineWidth',2); hold on;
-% for i = 2:10
-%     if i == 2
-%         plot(uw_plot(i,:),z,'Color',color12(i-1),'LineWidth',2); hold on;
-%     else
-%         plot(uw_plot(i,:),z,'Color',color12(i-1),'LineWidth',2); hold on;
-%     end
-% end
-% set(gca,'FontName','SansSerif','FontSize',16);
-% ylabel('$z/\delta$','FontName','SansSerif','FontSize',18);
-% xlabel('$\langle u^\prime w^\prime \rangle$','FontName','SansSerif','FontSize',18);
-% legend({'$\hat{x}_1$','$\hat{x}_2$','$\hat{x}_3$',...
-%     '$\hat{x}_4$','$\hat{x}_5$','$\hat{x}_6$','$\hat{x}_7$',...
-%     '$\hat{x}_8$','$\hat{x}_9$'},'Interpreter','Latex',...
-%     'Location','NorthWest','NumColumns',3,'FontSize',10);
-% 
-% % ylim([0 5]);
-% 
-% uw_plot2 = uw_plot(2:end,:);
-% 
-% figure();
-% %plot(uw_plot(1,:)./(0.12^2),z./30,'k--','LineWidth',2); hold on;
-% for i = 2:10
-%     if i == 2
-%         plot(uw_plot2(i,:)./(0.12^2),z./30,'Color',color12(i-1),'LineWidth',2); hold on;
-%     else
-%         plot(uw_plot2(i,:)./(0.12^2),z./delta_ibl(i-1),'Color',color12(i-1),'LineWidth',2); hold on;
-%     end
-% end
-% set(gca,'FontName','SansSerif','FontSize',16);
-% ylabel('$z/\hat{\delta}$','FontName','SansSerif','FontSize',18);
-% xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',18);
-% ylim([0 10]);
+%plot(uw_plot(1,:)./(0.12^2),z./30,'k--','LineWidth',2); hold on;
+for i = 2:10
+    if i == 2
+        plot(uw_plot2(i,:)./(0.12^2),z./30,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    else
+        plot(uw_plot2(i,:)./(0.12^2),z./delta_ibl(i-1),'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    end
+end
+set(gca,'FontName','SansSerif','FontSize',20);
+ylabel('$z/\hat{\delta}$','FontName','SansSerif','FontSize',24);
+xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',24);
+ylim([0 4]);
+
+%%
+
+figure();
+for i = 2:10
+    if i == 2
+        plot(uw_plot(i,:)./(0.12^2),z/300,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    else
+        plot(uw_plot(i,:)./(0.12^2),z/300,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    end
+end
+set(gca,'FontName','SansSerif','FontSize',20);
+ylabel('$z/\delta$','FontName','SansSerif','FontSize',24);
+xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',24);
+ylim([0 1]);
+
 
 %% Functions
 

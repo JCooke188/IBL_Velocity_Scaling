@@ -541,6 +541,8 @@ ylabel('$U/U_\infty$','FontSize',18);
 
 %% IBL Figures to Create Insets
 
+close all;
+
 figure();
 tiledlayout(1,3);
 p1 = nexttile;
@@ -548,12 +550,12 @@ for i = 2:N_u-1
     plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
         'Color',Cooke_Colors(i)); hold on
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
 xlim([0 1]);
 ylim([0 1]);
-ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',18);
+ylabel('$z/\delta_i$','FontSize',24);
+xlabel('$U/U_i$','FontSize',24);
 
 p2 = nexttile;
 for i = 2:Np60
@@ -561,12 +563,12 @@ for i = 2:Np60
     plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
         'Color',P60toP24_Colors(i)); hold on;
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
 xlim([0 1]);
 ylim([0 1]);
 % ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',24);
 
 p3 = nexttile;
 for i = 1:Li_N
@@ -574,45 +576,45 @@ for i = 1:Li_N
     plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
         'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
 xlim([0 1]);
 ylim([0 1]);
 % ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',18);
+xlabel('$U/U_i$','FontSize',24);
 
 
 figure();
 for i = 2:Np60
     thisP60U = P60toP24_U{i};
-    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
+    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',10,...
         'Color',P60toP24_Colors(i)); hold on;
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
-ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',18);
+ylabel('$z/\delta_i$','FontSize',24);
+xlabel('$U/U_i$','FontSize',24);
 
 figure();
 for i = 1:Li_N
     thisZ = Li_zdel99{i};
     plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
-        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
+        'o','MarkerSize',10,'Color',Li_7k_Colors(i)); hold on;
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
-ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',18);
+ylabel('$z/\delta_i$','FontSize',24);
+xlabel('$U/U_i$','FontSize',24);
 
 figure();
 for i = 2:N_u-1
-    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
+    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',10,...
         'Color',Cooke_Colors(i)); hold on
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
-ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',18);
+ylabel('$z/\delta_i$','FontSize',24);
+xlabel('$U/U_i$','FontSize',24);
 
 
 
@@ -732,9 +734,9 @@ for i = 2:N_u-1
         '^','MarkerSize',8,'Color',Cooke_Colors(i)); hold on
 end
 semilogx(zdelta,cookeWake,'k--','LineWidth',3);
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',18)
+ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',24)
 
 p2 = nexttile;
 for i = 2:N_u-1
@@ -743,9 +745,9 @@ for i = 2:N_u-1
         '^','MarkerSize',8,'Color',Cooke_Colors(i)); hold on
 end
 semilogx(cookeYDi,cookeWakeIBL,'k--','LineWidth',3);
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
+ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',24);
 xlim([0 1]);
 
 p3 = nexttile;
@@ -755,9 +757,9 @@ for i = 2:Np60
         '+','MarkerSize',8,'Color',P60toP24_Colors(i)); hold on
 end
 semilogx(gulYD,gulWake,'k--','LineWidth',3);
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',18);
+ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',24);
 
 p4 = nexttile;
 for i = 2:Np60
@@ -769,9 +771,9 @@ for i = 2:Np60
 end
 % ylim([0 5]);
 semilogx(gulYDi,gulWakeIBL,'k--','LineWidth',3);
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
+ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',24);
 xlim([10^-1 1]);
 
 p5 = nexttile;
@@ -780,10 +782,10 @@ for i = 1:Li_N
         'Color',Li_7k_Colors(i)); hold on
 end
 semilogx(liYD,liWake,'k--','LineWidth',3);
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',18)
-xlabel('$z/\delta$','FontSize',18);
+ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',24)
+xlabel('$z/\delta$','FontSize',24);
 
 p6 = nexttile;
 for i = 1:Li_N
@@ -793,11 +795,11 @@ for i = 1:Li_N
         'Color',Li_7k_Colors(i)); hold on
 end
 semilogx(liYDi,liWakeIBL,'k--','LineWidth',3);
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 xlim([0 1]);
 grid on;
-xlabel('$z/\delta_i$','FontSize',18);
-ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
+xlabel('$z/\delta_i$','FontSize',24);
+ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',24);
 
 %% Functions
 
