@@ -795,8 +795,8 @@ for i = 2:10
     end
 end
 set(gca,'FontName','SansSerif','FontSize',20);
-ylabel('$z/\delta$','FontName','SansSerif','FontSize',24);
-xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',24);
+ylabel('$z/\delta$','FontName','SansSerif','FontSize',36);
+xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',36);
 ylim([0 1]);
 
 
