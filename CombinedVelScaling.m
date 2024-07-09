@@ -280,6 +280,7 @@ clear myName myFolder loadMe cr cx swss_xyz swss_tau
 %% Relevant data/parameters
 
 delta = 300;
+% Raw Calculated Values
 delta_ibl_withAF = [0.1,0.06356,0.1665,0.1665,0.1373,0.1372,0.2968,0.4362,...
     0.4362,0.5289].*delta;
 nu = 0.32e-4; % Kin. viscosity of air
@@ -288,6 +289,14 @@ rho = 1.23; % Density of air
 z = linspace(1.5,400,100);
 zdelta = z./delta;
 xhat = x - 1850;
+
+% Using the correlation delta_i = a*xhat^b which is fit to calc'd data
+% Here a = 0.29 and b = 0.71 -- found prev. 
+cookeCorr = 0.29.*((xhat(2:end)).^0.71);
+% Because the IBL underpredicts the relevant length-scale at the first two
+% xhat, we replace with ASL height.
+cookeCorr(1) = 30; 
+cookeCorr(2) = 30;
 
 Nx = length(xhat);
 myColors = [ "black", "#daf8e3", "#97ebdb", "#00c2c7", "#0086ad", "#005582", ...
@@ -336,9 +345,11 @@ clear temp*
 
 %% Find U_infty at z(\delta_i) for Cooke data
 
-for i = 1:Nx-1
+%for i = 1:Nx-1
+for i = 2:Nx-1
     
-    ii = find(z >= delta_ibl_withAF(i),1);
+    %ii = find(z >= delta_ibl_withAF(i),1);
+    ii = find(z >= cookeCorr(i-1),1);
     U_infty_i(i) = U{i}(ii);
     
 end
@@ -371,92 +382,6 @@ Cooke_Colors = ["White","#babd00","#92f240","#00de69","#00b995","#00999c",...
    % '#8a60ca','#8353c3','#7c44bc','#7635b4','#6f24ac','#690aa4']; % Purple Gradient
 
 
-
-%% Plot Velocity Profiles on Single Plots
-
-close all;
-
-% Viscous Scaling
-figure();
-subplot(1,2,1);
-for i = 2:Np60
-    semilogx(P60toP24_y{i}./P60toP24_dnu(i),...
-        P60toP24_U{i}./P60toP24_utau2(i),'+','MarkerSize',8,...
-        'Color',P60toP24_Colors(i)); hold on;
-end
-for i = 1:Li_N
-    semilogx(Li_zplus{i},Li_Uplus{i},'o','MarkerSize',8,...
-        'Color',Li_7k_Colors(i)); hold on;
-end
-for i = 2:N_u-1
-    semilogx(z./(nu/utau(i)),U{i}./utau(i),'^','MarkerSize',8,...
-        'Color',Cooke_Colors(i)); hold on
-end
-set(gca,'FontSize',16);
-xlabel('$z^+$','FontSize',18);
-ylabel('$U^+$','FontSize',18);
-
-subplot(1,2,2);
-for i = 2:Np60
-    thisP60U = P60toP24_U{i};
-    plot(thisP60U./P60toP24_Uinf,P60toP24_ydelta{i},'+','MarkerSize',8,...
-        'Color',P60toP24_Colors(i)); hold on;
-end
-for i = 1:Li_N
-    thisZ = Li_zdel99{i};
-    plot(Li_U{i}./Li_Uinfty(i),thisZ,...
-        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
-end
-for i = 2:N_u-1
-    plot(U{i}./max(U{i}),zdelta,'^','MarkerSize',8,...
-        'Color',Cooke_Colors(i)); hold on
-end
-xlim([0 1]);
-ylim([0 1]);
-set(gca,'FontSize',16);
-ylabel('$z/\delta$','FontSize',18);
-xlabel('$U/U_\infty$','FontSize',18);
-
-
-figure();
-for i = 2:Np60
-    thisP60U = P60toP24_U{i};
-    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
-        'Color',P60toP24_Colors(i)); hold on;
-end
-for i = 1:Li_N
-    thisZ = Li_zdel99{i};
-    plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
-        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
-end
-for i = 2:N_u-1
-    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
-        'Color',Cooke_Colors(i)); hold on
-end
-set(gca,'FontSize',16);
-ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',18);
-
-figure();
-for i = 2:Np60
-    thisP60U = P60toP24_U{i};
-    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
-        'Color',P60toP24_Colors(i)); hold on;
-end
-for i = 1:Li_N
-    thisZ = Li_zdel99{i};
-    plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
-        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
-end
-for i = 2:N_u-1
-    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
-        'Color',Cooke_Colors(i)); hold on
-end
-xlim([0 1]);
-ylim([0 1]);
-set(gca,'FontSize',16);
-ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',18);
 
 
 %% Plot Velocity Profiles in Sub-Plots
@@ -547,8 +472,8 @@ figure();
 tiledlayout(1,3);
 p1 = nexttile;
 for i = 2:N_u-1
-    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',8,...
-        'Color',Cooke_Colors(i)); hold on
+    plot(U{i}./U_infty_i(i),z./cookeCorr(i-1),'k^','MarkerSize',8,...
+        'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
 set(gca,'FontSize',20);
 grid on;
@@ -560,8 +485,8 @@ xlabel('$U/U_i$','FontSize',24);
 p2 = nexttile;
 for i = 2:Np60
     thisP60U = P60toP24_U{i};
-    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',8,...
-        'Color',P60toP24_Colors(i)); hold on;
+    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'ksquare','MarkerSize',8,...
+        'MarkerFaceColor',P60toP24_Colors(i)); hold on;
 end
 set(gca,'FontSize',20);
 grid on;
@@ -574,7 +499,7 @@ p3 = nexttile;
 for i = 1:Li_N
     thisZ = Li_zdel99{i};
     plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
-        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
+        'ko','MarkerSize',8,'MarkerFaceColor',Li_7k_Colors(i)); hold on;
 end
 set(gca,'FontSize',20);
 grid on;
@@ -587,85 +512,36 @@ xlabel('$U/U_i$','FontSize',24);
 figure();
 for i = 2:Np60
     thisP60U = P60toP24_U{i};
-    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'+','MarkerSize',10,...
-        'Color',P60toP24_Colors(i)); hold on;
+    plot(thisP60U./P60toP24_UinftyIBL(i),P60toP24_yibl{i},'ksquare','MarkerSize',10,...
+        'MarkerFaceColor',P60toP24_Colors(i)); hold on;
 end
 set(gca,'FontSize',20);
 grid on;
-ylabel('$z/\delta_i$','FontSize',24);
-xlabel('$U/U_i$','FontSize',24);
+ylabel('$z/\delta_i$','FontSize',36);
+xlabel('$U/U_i$','FontSize',36);
 
 figure();
 for i = 1:Li_N
     thisZ = Li_zdel99{i};
     plot(Li_U{i}./Li_Udeltai(i),thisZ.*Li_delta99(i)./Li_deltai(i),...
-        'o','MarkerSize',10,'Color',Li_7k_Colors(i)); hold on;
+        'ko','MarkerSize',10,'MarkerFaceColor',Li_7k_Colors(i)); hold on;
 end
 set(gca,'FontSize',20);
 grid on;
-ylabel('$z/\delta_i$','FontSize',24);
-xlabel('$U/U_i$','FontSize',24);
+ylabel('$z/\delta_i$','FontSize',36);
+xlabel('$U/U_i$','FontSize',36);
 
 figure();
 for i = 2:N_u-1
-    plot(U{i}./U_infty_i(i),z./delta_ibl_withAF(i),'^','MarkerSize',10,...
-        'Color',Cooke_Colors(i)); hold on
+    plot(U{i}./U_infty_i(i),z./cookeCorr(i-1),'k^','MarkerSize',10,...
+        'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
 set(gca,'FontSize',20);
 grid on;
-ylabel('$z/\delta_i$','FontSize',24);
-xlabel('$U/U_i$','FontSize',24);
+ylabel('$z/\delta_i$','FontSize',36);
+xlabel('$U/U_i$','FontSize',36);
 
 
-
-%% Combined Velocity Defect Plot
-
-close all;
-
-figure();
-subplot(1,2,1);
-for i = 2:P24toS_N
-    semilogx(P24toS_ydelta{i},P24toS_velDefect{i},'-','LineWidth',2,...
-        'Color','#293256'); hold on;
-end
-for i = 1:Li_N
-    semilogx(Li_zdel99{i},Li_UvelDef{i},'-.','LineWidth',2,...
-        'Color','#0094ab'); hold on;
-end
-for i = 2:N_u-1
-    semilogx(z./delta,(U{i}(end) - U{i})./utau(i),'--','LineWidth',2,...
-        'Color','#70fa97'); hold on
-end
-set(gca,'FontSize',16);
-xlabel('$z/\delta$','FontSize',18);
-ylabel('$(U_\infty - \langle U \rangle)/u_\tau)$','FontSize',18);
-
-subplot(1,2,2);
-for i = 2:P24toS_N
-    thisP24U = P24toS_U{i};
-    thisP24toS_Defect = (P24toS_UinftyIBL(i) - thisP24U)./P24toS_utau2(i);
-    
-    p1 = semilogx(P24toS_yibl{i},thisP24toS_Defect,...
-        '-','LineWidth',2,'Color','#293256'); hold on;
-end
-for i = 1:Li_N
-    thisLi_vel = Li_U{i};
-    thisLi_Defect = (Li_Udeltai(i) - thisLi_vel)./Li_utau(i);
-
-    thisZ = Li_zdel99{i};
-    p2 = semilogx(thisZ.*Li_delta99(i)./Li_deltai(i),thisLi_Defect,...
-        '-.','LineWidth',2,'Color','#0094ab'); hold on;
-end
-for i = 2:N_u-1
-    p3 = semilogx(z./delta_ibl_withAF(i),(U_infty_i(i) - U{i})./utau(i),'--','LineWidth',2,...
-        'Color','#70fa97'); hold on
-end
-set(gca,'FontSize',16);
-xlabel('$z/\delta_i$','FontSize',18);
-ylabel('$(U_\infty(z=\delta_i) - \langle U \rangle)/u_\tau)$','FontSize',18);
-legend([p1 p2 p3],{'Gul 2022 Expt. $R \rightarrow S$',...
-    'Li 2021 Expt $R \rightarrow S$','Cooke WMLES 2024 $S \rightarrow R$'},...
-    'Interpreter','Latex');
 
 %% Velocity defect 
 
@@ -680,7 +556,7 @@ liKappa = 0.4;
 
 % Define y/delta input for wake function
 cookeYD = zdelta;
-cookeYDi = z./delta_ibl_withAF(end);
+cookeYDi = z./cookeCorr(end);
 
 gulYD = P60toP24_ydelta{end};
 gulYDi = P60toP24_yibl{end};
@@ -731,7 +607,7 @@ p1 = nexttile;
 for i = 2:N_u-1
    
     semilogx(z./delta,(U{i}(end) - U{i})./utau(i),...
-        '^','MarkerSize',8,'Color',Cooke_Colors(i)); hold on
+        'k^','MarkerSize',8,'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
 semilogx(zdelta,cookeWake,'k--','LineWidth',3);
 set(gca,'FontSize',20);
@@ -741,8 +617,8 @@ ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',24)
 p2 = nexttile;
 for i = 2:N_u-1
    
-    semilogx(z./delta_ibl_withAF(i),(U_infty_i(i) - U{i})./utau(i),...
-        '^','MarkerSize',8,'Color',Cooke_Colors(i)); hold on
+    semilogx(z./cookeCorr(i-1),(U_infty_i(i) - U{i})./utau(i),...
+        'k^','MarkerSize',8,'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
 semilogx(cookeYDi,cookeWakeIBL,'k--','LineWidth',3);
 set(gca,'FontSize',20);
@@ -754,7 +630,7 @@ p3 = nexttile;
 for i = 2:Np60
     semilogx(P60toP24_ydelta{i},...
         P60toP24_velDefect{i}.*(P60toP24_utau1/P60toP24_utau2(i)),...
-        '+','MarkerSize',8,'Color',P60toP24_Colors(i)); hold on
+        'ksquare','MarkerSize',8,'MarkerFaceColor',P60toP24_Colors(i)); hold on
 end
 semilogx(gulYD,gulWake,'k--','LineWidth',3);
 set(gca,'FontSize',20);
@@ -767,7 +643,7 @@ for i = 2:Np60
     thisDefect = (P60toP24_UinftyIBL(i) - thisVel)./P60toP24_utau2(i);
     
     semilogx(P60toP24_yibl{i},thisDefect,...
-        '+','MarkerSize',8,'Color',P60toP24_Colors(i-1)); hold on
+        'ksquare','MarkerSize',8,'MarkerFaceColor',P60toP24_Colors(i-1)); hold on
 end
 % ylim([0 5]);
 semilogx(gulYDi,gulWakeIBL,'k--','LineWidth',3);
@@ -778,8 +654,8 @@ xlim([10^-1 1]);
 
 p5 = nexttile;
 for i = 1:Li_N
-    p1 = semilogx(Li_zdel99{i},Li_UvelDef{i},'o','MarkerSize',8,...
-        'Color',Li_7k_Colors(i)); hold on
+    p1 = semilogx(Li_zdel99{i},Li_UvelDef{i},'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_7k_Colors(i)); hold on
 end
 semilogx(liYD,liWake,'k--','LineWidth',3);
 set(gca,'FontSize',20);
@@ -791,8 +667,8 @@ p6 = nexttile;
 for i = 1:Li_N
     thisZ = Li_zdel99{i}.*Li_delta99(i)./Li_deltai(i);
     thisDefect = (Li_Udeltai(i) - Li_U{i})./Li_utau(i);
-    semilogx(thisZ,thisDefect,'o','MarkerSize',8,...
-        'Color',Li_7k_Colors(i)); hold on
+    semilogx(thisZ,thisDefect,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_7k_Colors(i)); hold on
 end
 semilogx(liYDi,liWakeIBL,'k--','LineWidth',3);
 set(gca,'FontSize',20);

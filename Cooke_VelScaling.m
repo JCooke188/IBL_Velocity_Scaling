@@ -98,6 +98,10 @@ z = linspace(1.5,400,100);
 zdelta = z./delta;
 xhat = x - 1850;
 
+cookeCorr = 0.29.*((xhat(2:end)).^0.71);
+cookeCorr(1) = 30;
+cookeCorr(2) = 30;
+
 Nx = length(xhat);
 myColors = [ "black", "#daf8e3", "#97ebdb", "#00c2c7", "#0086ad", "#005582", ...
     "#ffc100", "#ff9a00", "#ff7400", "#bf0000" ];
@@ -733,7 +737,7 @@ title('ZS Scaling with IBL Parameters');
 
 %% Plot RSS
 
-close all;
+% close all;
 
 Cooke_Colors = ["White","#babd00","#92f240","#00de69","#00b995","#00999c",...
     "#007c92","#00627f","#004a70","#0b1b84","White"]; % Yellow to Blue Gradient
@@ -751,20 +755,16 @@ tiledlayout(1,2);
 p1 = nexttile;
 %plot(uw_plot(1,:),z,'k--','LineWidth',2); hold on;
 for i = 2:10
-    if i == 2
         plot(uw_plot(i,:),z,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
-    else
-        plot(uw_plot(i,:),z,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
-    end
 end
 set(gca,'FontName','SansSerif','FontSize',20);
-ylabel('$z$','FontName','SansSerif','FontSize',24);
-xlabel('$\langle u^\prime w^\prime \rangle$','FontName','SansSerif','FontSize',24);
-ylim([0 300]);
+ylabel('$z$','FontName','SansSerif','FontSize',36);
+xlabel('$\langle u^\prime w^\prime \rangle$','FontName','SansSerif','FontSize',36);
+ylim([0 200]);
 legend({'$\hat{x}_1$','$\hat{x}_2$','$\hat{x}_3$',...
     '$\hat{x}_4$','$\hat{x}_5$','$\hat{x}_6$','$\hat{x}_7$',...
     '$\hat{x}_8$','$\hat{x}_9$'},'Interpreter','Latex',...
-    'Location','NorthWest','NumColumns',3,'FontSize',18);
+    'Location','NorthWest','NumColumns',3,'FontSize',30);
 
 
 uw_plot2 = uw_plot(2:end,:);
@@ -776,12 +776,12 @@ for i = 2:10
     if i == 2
         plot(uw_plot2(i,:)./(0.12^2),z./30,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
     else
-        plot(uw_plot2(i,:)./(0.12^2),z./delta_ibl(i-1),'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+        plot(uw_plot2(i,:)./(0.12^2),z./cookeCorr(i),'Color',Cooke_Colors(i),'LineWidth',2); hold on;
     end
 end
 set(gca,'FontName','SansSerif','FontSize',20);
-ylabel('$z/\hat{\delta}$','FontName','SansSerif','FontSize',24);
-xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',24);
+ylabel('$z/\hat{\delta}$','FontName','SansSerif','FontSize',36);
+xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',36);
 ylim([0 4]);
 
 %%
