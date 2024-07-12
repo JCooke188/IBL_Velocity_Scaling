@@ -547,7 +547,7 @@ xlabel('$U/U_i$','FontSize',36);
 
 % Wake Parameter PI - Chosen based on downstream roughness
 smoothPI = 0.55;
-roughPI = 0.55; %%%% Could also do 0.70 
+roughPI = 0.70; %%%% Could also do 0.70 
 
 % Von Karman Constant
 cookeKappa = 0.41;
@@ -577,10 +577,10 @@ liYDi = liYDi(1:ii);
 % Calculate wake defect law functions
 cookeWakeIBL = defectLaw(cookeKappa,roughPI,cookeYDi);
 cookeWake = defectLaw(cookeKappa,roughPI,cookeYD);
-
+%%
 gulWakeIBL = defectLaw(gulKappa,roughPI,gulYDi);
 gulWake = defectLaw(gulKappa,roughPI,gulYD);
-
+%%
 liWakeIBL = defectLaw(liKappa,smoothPI,liYDi);
 liWake = defectLaw(liKappa,smoothPI,liYD);
     
