@@ -216,28 +216,30 @@ subplot(1,2,2);
 for i = 1:theseLengths(1)
     thisZ = Re07_zdel99{i};
     semilogx(thisZ.*delta99{1}(i)./delta_ibl{1}(i),...
-        Re07_U{i}./Re07_Udelta_ibl(i),'^','MarkerSize',8,...
+        Re07_U{i}./Uinfty{1}(i),'^','MarkerSize',8,...
         'Color',theseColors(1)); hold on
 end
 for i = 1:theseLengths(2)
     thisZ = Re10_zdel99{i};
     semilogx(thisZ.*delta99{2}(i)./delta_ibl{2}(i),...
-        Re10_U{i}./Re10_Udelta_ibl(i),'^','MarkerSize',8,...
+        Re10_U{i}./Uinfty{2}(i),'^','MarkerSize',8,...
         'Color',theseColors(2)); hold on
 end
 for i = 1:theseLengths(3)
     thisZ = Re14_zdel99{i};
     semilogx(thisZ.*delta99{3}(i)./delta_ibl{3}(i),...
-        Re14_U{i}./Re14_Udelta_ibl(i),'^','MarkerSize',8,...
+        Re14_U{i}./Uinfty{3}(i),'^','MarkerSize',8,...
         'Color',theseColors(3)); hold on
 end
 for i = 1:theseLengths(4)
     thisZ = Re21_zdel99{i};
     semilogx(thisZ.*delta99{4}(i)./delta_ibl{4}(i),...
-        Re21_U{i}./Re21_Udelta_ibl(i),'^','MarkerSize',8,...
+        Re21_U{i}./Uinfty{4}(i),'^','MarkerSize',8,...
         'Color',theseColors(4)); hold on
 end
 set(gca,'FontSize',16);
+xlim([0 1]);
+ylim([0 1]);
 xlabel('$z/\delta_i$','FontSize',18);
 ylabel('$\langle U\rangle/U_\infty(z = \delta_i)$','FontSize',18);
 title('IBL Scaling','FontSize',20)
@@ -358,27 +360,28 @@ title('Outer Scaling','FontSize',20)
 
 % Non-Log
 subplot(1,3,3);
-for i = 1:theseLengths(1)
+for i = 4:theseLengths(1)
     thisZ = Re07_zdel99{i};
     plot(Re07_U{i}./Re07_Udelta_ibl(i),thisZ.*delta99{1}(i)./delta_ibl{1}(i),...
         '^','MarkerSize',8,'Color',theseColors(1)); hold on
 end
-for i = 1:theseLengths(2)
+for i = 4:theseLengths(2)
     thisZ = Re10_zdel99{i};
     plot(Re10_U{i}./Re10_Udelta_ibl(i),thisZ.*delta99{2}(i)./delta_ibl{2}(i),...
         'square','MarkerSize',8,'Color',theseColors(2)); hold on
 end
-for i = 1:theseLengths(3)
+for i = 4:theseLengths(3)
     thisZ = Re14_zdel99{i};
     plot(Re14_U{i}./Re14_Udelta_ibl(i),thisZ.*delta99{3}(i)./delta_ibl{3}(i),...
         '+','MarkerSize',8,'Color',theseColors(3)); hold on
 end
-for i = 1:theseLengths(4)
+for i = 4:theseLengths(4)
     thisZ = Re21_zdel99{i};
     plot(Re21_U{i}./Re21_Udelta_ibl(i),thisZ.*delta99{4}(i)./delta_ibl{4}(i),...
         'o','MarkerSize',8,'Color',theseColors(4)); hold on
 end
-% xlim([0,1]);
+xlim([0,1]);
+ylim([0,1]);
 set(gca,'FontSize',16);
 ylabel('$z/\delta_i$','FontSize',18);
 xlabel('$\langle U\rangle/U_\infty(z = \delta_i)$','FontSize',18);
