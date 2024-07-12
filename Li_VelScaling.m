@@ -8,7 +8,7 @@ set(0,'defaultTextInterpreter','latex');
 
 %% Load BL Based Data
 
-rootdir = './Experimental Data/Li et al 2021/';
+rootdir = './ExperimentalData/Li et al 2021/';
 filelist = dir(fullfile(rootdir,'Re*/*BL'));  %get list of files and folders in any subfolder
 filelist = filelist(~[filelist.isdir]);  %remove folders from list
 
@@ -1038,6 +1038,8 @@ xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',18);
 ylabel('$(U_i - U)/U_i\delta_i^*/\delta_i$','FontSize',18);
 title('ZS Scaling');
+
+
 
 
 %% Functions
