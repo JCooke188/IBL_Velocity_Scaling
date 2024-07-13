@@ -543,8 +543,6 @@ for i = 2:N_u-1
     plot(U{i}./U_infty_i(i),z./cookeCorr(i-1),'k^','MarkerSize',10,...
         'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
-plot(theseOnes,thisLine,'r-','LineWidth',2);
-plot(thisLine,theseOnes,'r-','LineWidth',2);
 set(gca,'FontSize',24);
 grid on;
 ylabel('$z/\delta_i$','FontSize',36);
@@ -587,8 +585,8 @@ liYDi = liYDi(1:ii);
 cookeWakeIBL = defectLaw(cookeKappa,roughPI,cookeYDi);
 cookeWake = defectLaw(cookeKappa,roughPI,cookeYD);
 
-gulWakeIBL = defectLaw(gulKappa,0.9,gulYDi);
-gulWake = defectLaw(gulKappa,0.9,gulYD);
+gulWakeIBL = defectLaw(gulKappa,roughPI,gulYDi);
+gulWake = defectLaw(gulKappa,roughPI,gulYD);
 
 liWakeIBL = defectLaw(liKappa,smoothPI,liYDi);
 liWake = defectLaw(liKappa,smoothPI,liYD);
