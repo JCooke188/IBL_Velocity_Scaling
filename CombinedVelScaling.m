@@ -482,8 +482,8 @@ set(gca,'FontSize',24);
 grid on;
 xlim([0 1]);
 ylim([0 1]);
-ylabel('$z/\delta_i$','FontSize',24);
-xlabel('$U/U_i$','FontSize',24);
+ylabel('$z/\delta_i$','FontSize',36);
+xlabel('$\langle U \rangle/U_i$','FontSize',36);
 
 p2 = nexttile;
 for i = 2:Np60
@@ -496,7 +496,7 @@ grid on;
 xlim([0 1]);
 ylim([0 1]);
 % ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',24);
+xlabel('$\langle U \rangle/U_i$','FontSize',36);
 
 p3 = nexttile;
 for i = 1:Li_N
@@ -509,7 +509,7 @@ grid on;
 xlim([0 1]);
 ylim([0 1]);
 % ylabel('$z/\delta_i$','FontSize',18);
-xlabel('$U/U_i$','FontSize',24);
+xlabel('$\langle U \rangle/U_i$','FontSize',36);
 
 
 figure();
@@ -523,7 +523,7 @@ plot(thisLine,theseOnes,'r-','LineWidth',2);
 set(gca,'FontSize',24);
 grid on;
 ylabel('$z/\delta_i$','FontSize',36);
-xlabel('$U/U_i$','FontSize',36);
+xlabel('$\langle U \rangle/U_i$','FontSize',36);
 
 figure();
 for i = 1:Li_N
@@ -535,8 +535,9 @@ plot(theseOnes,thisLine,'r-','LineWidth',2);
 plot(thisLine,theseOnes,'r-','LineWidth',2);
 set(gca,'FontSize',24);
 grid on;
+xlim([0 1.5]);
 ylabel('$z/\delta_i$','FontSize',36);
-xlabel('$U/U_i$','FontSize',36);
+xlabel('$\langle U \rangle/U_i$','FontSize',36);
 
 figure();
 for i = 2:N_u-1
@@ -548,7 +549,7 @@ plot(thisLine,theseOnes,'r-','LineWidth',2);
 set(gca,'FontSize',24);
 grid on;
 ylabel('$z/\delta_i$','FontSize',36);
-xlabel('$U/U_i$','FontSize',36);
+xlabel('$\langle U \rangle/U_i$','FontSize',36);
 
 
 
@@ -621,7 +622,7 @@ end
 semilogx(zdelta,cookeWake,'k--','LineWidth',3);
 set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',24)
+ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24)
 
 p2 = nexttile;
 for i = 2:N_u-1
@@ -632,7 +633,7 @@ end
 semilogx(cookeYDi,cookeWakeIBL,'k--','LineWidth',3);
 set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',24);
+ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
 xlim([0 1]);
 
 p3 = nexttile;
@@ -644,7 +645,7 @@ end
 semilogx(gulYD,gulWake,'k--','LineWidth',3);
 set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',24);
+ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
 
 p4 = nexttile;
 for i = 2:Np60
@@ -658,7 +659,7 @@ end
 semilogx(gulYDi,gulWakeIBL,'k--','LineWidth',3);
 set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',24);
+ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
 xlim([10^-1 1]);
 
 p5 = nexttile;
@@ -669,8 +670,8 @@ end
 semilogx(liYD,liWake,'k--','LineWidth',3);
 set(gca,'FontSize',20);
 grid on;
-ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',24)
-xlabel('$z/\delta$','FontSize',24);
+ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24)
+xlabel('$z/\delta$','FontSize',36);
 
 p6 = nexttile;
 for i = 1:Li_N
@@ -683,8 +684,8 @@ semilogx(liYDi,liWakeIBL,'k--','LineWidth',3);
 set(gca,'FontSize',20);
 xlim([0 1]);
 grid on;
-xlabel('$z/\delta_i$','FontSize',24);
-ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',24);
+xlabel('$z/\delta_i$','FontSize',36);
+ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
 
 %% Functions
 
