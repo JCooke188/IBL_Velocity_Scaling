@@ -406,7 +406,7 @@ xlabel('$z/\delta$','FontSize',18);
 ylabel('$(U_\infty - U)/U_\infty\delta^*/\delta$','FontSize',18);
 
 % Finally with IBL Scaling
-p2 = nexttile;
+subplot(2,2,2);
 for i = 2:Np60
     
     thisVel = P60toP24_U{i};
@@ -416,17 +416,85 @@ for i = 2:Np60
         'ksquare','MarkerSize',8,...
         'MarkerFaceColor',Gul_Colors(i)); hold on
 end
-xlim([10^-1 1]);
+xlim([0 1]);
 set(gca,'FontSize',16);
 xlabel('$z/\delta_i$','FontSize',18);
-ylabel('$(U_i - \langle U \rangle)/U_i\delta_i^*/\delta_i$','FontSize',18);
+ylabel('$(U_i - \langle U \rangle)/U_i\delta_i^*/\delta$','FontSize',18);
 
+%%
+
+
+%%%%%% Linear Plotting
+
+figure();
+subplot(2,2,1);
+for i = 2:Np60
+    plot(P60toP24_ydelta{i},...
+        P60toP24_velDefect{i}.*(P60toP24_utau1/P60toP24_utau2(i)),...
+        'ksquare','MarkerSize',8,...
+        'MarkerFaceColor',Gul_Colors(i)); hold on
+end
+ylim([0 15]);
+set(gca,'FontSize',16);
+xlabel('$z/\delta$','FontSize',18);
+ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',18);
+title('Classic Scaling with Local $u_\tau$','FontSize',20);
+legend('$\hat{x}_1$','$\hat{x}_2$','$\hat{x}_3$','$\hat{x}_4$',...
+    '$\hat{x}_5$','$\hat{x}_6$','Interpreter','Latex',...
+    'Location','NorthEast','NumColumns',2);
+
+
+% Finally with IBL Scaling
+subplot(2,2,2);
+for i = 2:Np60
+    
+    thisVel = P60toP24_U{i};
+    thisDefect = (P60toP24_UinftyIBL(i) - thisVel)./P60toP24_utau2(i);
+    
+    plot(P60toP24_yibl{i},thisDefect,...
+        'ksquare','MarkerSize',8,...
+        'MarkerFaceColor',Gul_Colors(i)); hold on
+end
+xlim([0 1]);
+set(gca,'FontSize',16);
+xlabel('$z/\delta_i$','FontSize',18);
+ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
+title('IBL Scaling with Local $u_\tau$','FontSize',20);
+
+subplot(2,2,3);
+for i = 2:Np60
+    
+    thisVel = P60toP24_U{i};
+    thisDefect = (P60toP24_Uinf - thisVel)./u0(i);
+    
+    plot(P60toP24_ydelta{i},thisDefect,...
+        'ksquare','MarkerSize',8,...
+        'MarkerFaceColor',Gul_Colors(i)); hold on
+set(gca,'FontSize',16);
+xlabel('$z/\delta$','FontSize',18);
+ylabel('$(U_\infty - U)/U_\infty\delta^*/\delta$','FontSize',18);
+title('ZS Scaling','FontSize',20);
+
+subplot(2,2,4);
+for i = 2:Np60
+    
+    thisVel = P60toP24_U{i};
+    thisDefect = (P60toP24_UinftyIBL(i) - thisVel)./u0_i(i);
+    
+    plot(P60toP24_yibl{i},thisDefect,...
+        'o','MarkerSize',8,'Color',color12(i)); hold on
+end
+xlim([0 1]);
+set(gca,'FontSize',16);
+xlabel('$z/\delta_i$','FontSize',18);
+ylabel('$(U_i - U)/U_i\delta_i^*/\delta$','FontSize',18);
+title('ZS Scaling with IBL Parameters','FontSize',20);
 
 %% Functions
 
-% function wake = defectLaw(kappa,myPI,yd)
-%     wake =  (1/kappa)*( -1*log(yd) + myPI*(2 - 2*(sin((pi()/2)*yd).^2)));
-% end
+function wake = defectLaw(kappa,myPI,yd)
+    wake =  (1/kappa)*( -1*log(yd) + myPI*(2 - 2*(sin((pi()/2)*yd).^2)));
+end
 
 
 %% END
