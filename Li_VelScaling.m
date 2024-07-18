@@ -750,77 +750,114 @@ end
 
 
 
-
 %% Plot ZS Scaling
-
-myIND = theseLengths(4);
 
 close all;
 
 figure();
-subplot(2,2,1);
-for i = 1:myIND
-    p1 = semilogx(Re21_zdel99{i},Re21_UvelDef{i},'square','MarkerSize',8,...
-        'Color',color12(i)); hold on
-%     p1 = semilogx(Re14_zdel99{i},Re14_UvelDef{i},'square','MarkerSize',8,...
-%         'Color',color12(i)); hold on
-end
-% semilogx(thisYD,wake,'k--','LineWidth',3);
-set(gca,'FontSize',16);
-ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',18)
-xlabel('$z/\delta$','FontSize',18);
-title('Classic Scaling with Local $u_\tau$');
-legend('$\hat{x}_1$','$\hat{x}_2$','$\hat{x}_3$','$\hat{x}_4$',...
-    '$\hat{x}_5$','$\hat{x}_6$','$\hat{x}_7$','$\hat{x}_8$',...
-    '$\hat{x}_9$','$\hat{x}_{10}$','$\hat{x}_{11}$','$\hat{x}_{12}$',...
-    'Interpreter','Latex',...
-    'Location','NorthEast','NumColumns',3,'FontSize',10);
+tiledlayout(2,4);
 
-subplot(2,2,2);
-for i = 1:myIND
-    thisZ = Re21_zdel99{i};
-    semilogx(thisZ.*delta99{4}(i)./delta_ibl{4}(i),...
-        Re21_velDefect{i},'square','MarkerSize',8,...
-        'Color',color12(i)); hold on
-%     thisZ = Re14_zdel99{i};
-%     semilogx(thisZ.*delta99{1}(i)./delta_ibl{1}(i),...
-%         Re14_velDefect{i},'square','MarkerSize',8,...
-%         'Color',color12(i)); hold on
-end
-% semilogx(thisYDi,wake_ibl,'k--','LineWidth',3);
-set(gca,'FontSize',16);
-xlim([0 1]);
-xlabel('$z/\delta_i$','FontSize',18);
-ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
-title('IBL Scaling with Local $u_\tau$');
 
-subplot(2,2,3);
-for i = 1:myIND
-    thisZS = (Uinfty{4}(i) - Re21_U{i})./u0(i);
+%%%%% Top Row ZS Scaling with Outer Scales
+p1 = nexttile;
+for i = 1:theseLengths(1)
+    thisZS = (Uinfty{1}(i) - Re07_U{i})./u0{1}(i);
     
-    semilogx(Re21_zdel99{i},thisZS,'square','MarkerSize',8,...
-        'Color',color12(i)); hold on
+    semilogx(Re07_zdel99{i},thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_7k_Colors(i)); hold on
 end
-set(gca,'FontSize',16);
-xlabel('$z/\delta$','FontSize',18);
-ylabel('$(U_\infty - U)/U_\infty\delta^*/\delta$','FontSize',18);
-title('ZS Scaling');
+set(gca,'FontSize',20);
+xlabel('$z/\delta$','FontSize',28);
+title('Re07ks16','FontSize',28);
+ylabel('$(U_\infty - \langle U \rangle)/U_\infty\delta^*/\delta$',...
+    'FontSize',28);
 
+p2 = nexttile;
+for i = 1:theseLengths(2)
+    thisZS = (Uinfty{2}(i) - Re10_U{i})./u0{2}(i);
+    
+    semilogx(Re10_zdel99{i},thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_10k_Colors(i)); hold on
+end
+set(gca,'FontSize',20);
+xlabel('$z/\delta$','FontSize',28);
+title('Re10ks16','FontSize',28);
 
-subplot(2,2,4);
-for i = 1:myIND
-    thisZS = (Re21_Udelta_ibl(i) - Re21_U{i})./u0_i(i);
+p3 = nexttile;
+for i = 1:theseLengths(3)
+    thisZS = (Uinfty{3}(i) - Re14_U{i})./u0{3}(i);
+    
+    semilogx(Re14_zdel99{i},thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_14k_Colors_1(i)); hold on
+end
+set(gca,'FontSize',20);
+xlabel('$z/\delta$','FontSize',28);
+title('Re14ks16','FontSize',28);
+
+p4 = nexttile;
+for i = 1:theseLengths(4)
+    thisZS = (Uinfty{4}(i) - Re21_U{i})./u0{4}(i);
+    
+    semilogx(Re21_zdel99{i},thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_21k_Colors(i)); hold on
+end
+set(gca,'FontSize',20);
+xlabel('$z/\delta$','FontSize',28);
+title('Re21ks16','FontSize',28);
+
+%%%%%%%% Bottom Row ZS Scaling with IBL Parameters
+p5 = nexttile;
+for i = 1:theseLengths(1)
+    thisZS = (Re07_Udelta_ibl(i) - Re07_U{i})./u0_i{1}(i);
+    thisZ = Re07_zdel99{i};
+    this_zibl = thisZ.*delta99{1}(i)./delta_ibl{1}(i);
+    
+    semilogx(this_zibl,thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_7k_Colors(i)); hold on
+end
+set(gca,'FontSize',20);
+xlim([0 1]);
+xlabel('$z/\delta_i$','FontSize',28);
+ylabel('$(U_i - \langle U \rangle )/U_i\delta_i^*/\delta_i$','FontSize',28);
+
+p6 = nexttile;
+for i = 1:theseLengths(2)
+    thisZS = (Re10_Udelta_ibl(i) - Re10_U{i})./u0_i{2}(i);
+    thisZ = Re10_zdel99{i};
+    this_zibl = thisZ.*delta99{2}(i)./delta_ibl{2}(i);
+    
+    semilogx(this_zibl,thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_10k_Colors(i)); hold on
+end
+set(gca,'FontSize',20);
+xlim([0 1]);
+xlabel('$z/\delta_i$','FontSize',28);
+
+p7 = nexttile;
+for i = 1:theseLengths(3)
+    thisZS = (Re14_Udelta_ibl(i) - Re14_U{i})./u0_i{3}(i);
+    thisZ = Re14_zdel99{i};
+    this_zibl = thisZ.*delta99{3}(i)./delta_ibl{3}(i);
+    
+    semilogx(this_zibl,thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_14k_Colors_1(i)); hold on
+end
+set(gca,'FontSize',20);
+xlim([0 1]);
+xlabel('$z/\delta_i$','FontSize',28);
+
+p8 = nexttile;
+for i = 1:theseLengths(4)
+    thisZS = (Re21_Udelta_ibl(i) - Re21_U{i})./u0_i{4}(i);
     thisZ = Re21_zdel99{i};
     this_zibl = thisZ.*delta99{4}(i)./delta_ibl{4}(i);
     
-    semilogx(this_zibl,thisZS,'square','MarkerSize',8,...
-        'Color',color12(i)); hold on
+    semilogx(this_zibl,thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_21k_Colors(i)); hold on
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',20);
 xlim([0 1]);
-xlabel('$z/\delta_i$','FontSize',18);
-ylabel('$(U_i - U)/U_i\delta_i^*/\delta_i$','FontSize',18);
-title('ZS Scaling');
+xlabel('$z/\delta_i$','FontSize',28);
 
 
 %% Functions
