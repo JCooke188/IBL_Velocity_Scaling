@@ -690,65 +690,61 @@ for j = 1:4
             this_z = Re07_zdel99{i}.*delta99{j}(i);
             this_z = this_z(1:this_i);
 
-            this_integrand = 1 - (Re07_U{i}./Re07_Udelta_ibl(i));
+            this_integrand = 1 - (Re07_U{i}./Uinfty{j}(i));
             this_integrand = this_integrand(1:this_i);
-            
-            delta_i_star{j}(i) = trapz(this_z,this_integrand);
-
-            u0_i{j}(i) = Re07_Udelta_ibl(i)*(delta_i_star{j}(i)/delta_ibl{j}(i));
 
         elseif j == 2
-            thisZ = Re10_zdel99{i};
-            this_zibl = thisZ.*delta99{j}(i)./delta_ibl{j}(i);
-
-            this_i = find(this_zibl >= 1.0, 1);
+            this_i = find(Re10_zdel99{i} >= 1.0, 1);
             this_z = Re10_zdel99{i}.*delta99{j}(i);
             this_z = this_z(1:this_i);
 
-            this_integrand = 1 - (Re10_U{i}./Re10_Udelta_ibl(i));
+            this_integrand = 1 - (Re10_U{i}./Uinfty{j}(i));
             this_integrand = this_integrand(1:this_i);
-            
-            delta_i_star{j}(i) = trapz(this_z,this_integrand);
-
-            u0_i{j}(i) = Re10_Udelta_ibl(i)*(delta_i_star{j}(i)/delta_ibl{j}(i));
 
         elseif j == 3
-            thisZ = Re14_zdel99{i};
-            this_zibl = thisZ.*delta99{j}(i)./delta_ibl{j}(i);
-
-            this_i = find(this_zibl >= 1.0, 1);
+            this_i = find(Re14_zdel99{i} >= 1.0, 1);
             this_z = Re14_zdel99{i}.*delta99{j}(i);
             this_z = this_z(1:this_i);
 
-            this_integrand = 1 - (Re14_U{i}./Re14_Udelta_ibl(i));
+            this_integrand = 1 - (Re14_U{i}./Uinfty{j}(i));
             this_integrand = this_integrand(1:this_i);
-            
-            delta_i_star{j}(i) = trapz(this_z,this_integrand);
-
-            u0_i{j}(i) = Re14_Udelta_ibl(i)*(delta_i_star{j}(i)/delta_ibl{j}(i));
 
         else
-            thisZ = Re21_zdel99{i};
-            this_zibl = thisZ.*delta99{j}(i)./delta_ibl{j}(i);
-
-            this_i = find(this_zibl >= 1.0, 1);
+            this_i = find(Re21_zdel99{i} >= 1.0, 1);
             this_z = Re21_zdel99{i}.*delta99{j}(i);
             this_z = this_z(1:this_i);
 
-            this_integrand = 1 - (Re21_U{i}./Re21_Udelta_ibl(i));
+            this_integrand = 1 - (Re21_U{i}./Uinfty{j}(i));
             this_integrand = this_integrand(1:this_i);
-            
-            delta_i_star{j}(i) = trapz(this_z,this_integrand);
-
-            u0_i{j}(i) = Re21_Udelta_ibl(i)*(delta_i_star{j}(i)/delta_ibl{j}(i));
 
         end
         
-        
+        delta_star{j}(i) = trapz(this_z,this_integrand);
+
+        u0{j}(i) = Uinfty{j}(i)*(delta_star{j}(i)/delta99{j}(i));
+
     end
 end
 
 
+%%
+% Now with IBL Parameters
+for i = 1:theseLengths(4)
+    thisZ = Re21_zdel99{i};
+    this_zibl = thisZ.*delta99{4}(i)./delta_ibl{4}(i);
+    
+    this_i = find(this_zibl >= 1.0, 1);
+    this_z = Re21_zdel99{i}.*delta99{4}(i);
+    this_z = this_z(1:this_i);
+    
+    this_integrand = 1 - (Re21_U{i}./Re21_Udelta_ibl(i));
+    this_integrand = this_integrand(1:this_i);
+    
+    delta_i_star(i) = trapz(this_z,this_integrand);
+    
+    u0_i(i) = Re21_Udelta_ibl(i)*(delta_i_star(i)/delta_ibl{4}(i));
+    
+end    
 
 
 %% Plot ZS Scaling
