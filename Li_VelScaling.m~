@@ -1490,7 +1490,7 @@ for i = 1:ks_theseLengths(3)
     thisZS = (ks_Uinfty{3}(i) - ks_11_U{i})./ks_u0{3}(i);
     
     semilogx(ks_11_zdel99{i},thisZS,'ko','MarkerSize',8,...
-        'MarkerFaceColor',Li_ks11_Colors(i)); hold on
+        'MarkerFaceColor',Li_ks11_Colors_1(i)); hold on
 end
 set(gca,'FontSize',20);
 xlabel('$z/\delta$','FontSize',28);
@@ -1514,30 +1514,42 @@ ylabel('$(U_i - \langle U \rangle )/U_i\delta_i^*/\delta_i$','FontSize',28);
 
 p6 = nexttile;
 for i = 1:ks_theseLengths(2)
-    thisZS = (ks_23_Udelta_ibl(i) - ks_23_U{i})./ks_u0_i{2}(i);
-    thisZ = ks_23_zdel99{i};
-    this_zibl = thisZ.*ks_delta99{2}(i)./ks_delta_ibl{2}(i);
+    thisZS = (ks_23_Udelta_ibl(i) - Re10_U{i})./u0_i{2}(i);
+    thisZ = Re10_zdel99{i};
+    this_zibl = thisZ.*delta99{2}(i)./delta_ibl{2}(i);
     
     semilogx(this_zibl,thisZS,'ko','MarkerSize',8,...
-        'MarkerFaceColor',Li_ks23_Colors(i)); hold on
+        'MarkerFaceColor',Li_10k_Colors(i)); hold on
 end
 set(gca,'FontSize',20);
 xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 
 p7 = nexttile;
-for i = 1:ks_theseLengths(3)
-    thisZS = (ks_11_Udelta_ibl(i) - ks_11_U{i})./ks_u0_i{3}(i);
-    thisZ = ks_11_zdel99{i};
-    this_zibl = thisZ.*ks_delta99{3}(i)./ks_delta_ibl{3}(i);
+for i = 1:theseLengths(3)
+    thisZS = (Re14_Udelta_ibl(i) - Re14_U{i})./u0_i{3}(i);
+    thisZ = Re14_zdel99{i};
+    this_zibl = thisZ.*delta99{3}(i)./delta_ibl{3}(i);
     
     semilogx(this_zibl,thisZS,'ko','MarkerSize',8,...
-        'MarkerFaceColor',Li_ks11_Colors(i)); hold on
+        'MarkerFaceColor',Li_14k_Colors_1(i)); hold on
 end
 set(gca,'FontSize',20);
 xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 
+p8 = nexttile;
+for i = 1:theseLengths(4)
+    thisZS = (Re21_Udelta_ibl(i) - Re21_U{i})./u0_i{4}(i);
+    thisZ = Re21_zdel99{i};
+    this_zibl = thisZ.*delta99{4}(i)./delta_ibl{4}(i);
+    
+    semilogx(this_zibl,thisZS,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_21k_Colors(i)); hold on
+end
+set(gca,'FontSize',20);
+xlim([0 1]);
+xlabel('$z/\delta_i$','FontSize',28);
 
 %% Functions
 
