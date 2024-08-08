@@ -804,30 +804,36 @@ ylim([0 1]);
 
 [m,n] = size(uw{1});
 
-tend = 0.075*m;
+thisInd = 6;
 
+dt = 0.0065*50; %0.0065*100;
+tend = dt*m;
 t = linspace(0,tend,m);
+lett = t*U_infty(thisInd)/delta;
 
-[T,Z] = meshgrid(t,z);
+
+[T,Z] = meshgrid(lett,zdelta);
 
 %% Kymograph 
 
 close all;
 
-thisInd = 9;
+
 
 figure();
-contourf(T,Z,uw{thisInd}','LineColor','None');
+contourf(T,Z,uw{thisInd}','LineColor','None'); hold on;
+%yline(delta_ibl(thisInd-1)/delta,'--','LineWidth',3,'Color','#FA70CB');
 colorbar;
 colormap(flipud(jet));
-caxis([-0.04 0]);
+caxis([-0.05 0]);
 set(gca,'FontSize',20);
+% set(gca,'XScale','log');
 thisTitle = strcat('$\hat{x}_',num2str(thisInd-1),'$');
-title(thisTitle);
-xlabel('$t$','FontSize',24);
-ylabel('$z$','FontSize',24);
-xlim([0 200]);
-ylim([z(1) 150]);
+title(thisTitle,'FontSize',28);
+xlabel('$T$','FontSize',36); % T = tU_\infty/\delta
+ylabel('$z/\delta$','FontSize',36);
+xlim([0 25]);
+ylim([zdelta(1) 0.3]);
 
 
 %% Functions
