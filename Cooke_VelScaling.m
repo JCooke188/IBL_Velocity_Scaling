@@ -800,6 +800,36 @@ xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,1}$','FontName','SansSerif'
 ylim([0 1]);
 
 
+%% 
+
+[m,n] = size(uw{1});
+
+tend = 0.075*m;
+
+t = linspace(0,tend,m);
+
+[T,Z] = meshgrid(t,z);
+
+%% Kymograph 
+
+close all;
+
+thisInd = 9;
+
+figure();
+contourf(T,Z,uw{thisInd}','LineColor','None');
+colorbar;
+colormap(flipud(jet));
+caxis([-0.04 0]);
+set(gca,'FontSize',20);
+thisTitle = strcat('$\hat{x}_',num2str(thisInd-1),'$');
+title(thisTitle);
+xlabel('$t$','FontSize',24);
+ylabel('$z$','FontSize',24);
+xlim([0 200]);
+ylim([z(1) 150]);
+
+
 %% Functions
 
 function wake = defectLaw(kappa,myPI,yd)
