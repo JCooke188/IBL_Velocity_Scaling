@@ -784,7 +784,9 @@ ylabel('$z/\hat{\delta}$','FontName','SansSerif','FontSize',36);
 xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',36);
 ylim([0 4]);
 
-%%
+%% RSS with outer scaling
+
+close all;
 
 figure();
 for i = 2:10
@@ -799,6 +801,52 @@ ylabel('$z/\delta$','FontName','SansSerif','FontSize',36);
 xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,1}$','FontName','SansSerif','FontSize',36);
 ylim([0 1]);
 
+%% RSS with Delta_i and U_i scaling
+
+close all;
+
+figure();
+tiledlayout(1,3);
+nexttile;
+for i = 2:10
+    if i == 2
+        plot(uw_plot2(i,:)./((0.12)^2),z./30,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    else
+        plot(uw_plot2(i,:)./((0.12)^2),z./cookeCorr(i),'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    end
+end
+set(gca,'FontName','SansSerif','FontSize',20);
+ylabel('$z/\delta_i$','FontName','SansSerif','FontSize',36);
+xlabel('$\langle u^\prime w^\prime \rangle/u_{\tau,1}^2$','FontName','SansSerif','FontSize',36);
+ylim([0 4]);
+xlim([-3 0]);
+nexttile;
+
+for i = 2:10
+    if i == 2
+        plot(uw_plot2(i,:)./((utau(i))^2),z./30,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    else
+        plot(uw_plot2(i,:)./((utau(i))^2),z./cookeCorr(i),'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    end
+end
+set(gca,'FontName','SansSerif','FontSize',20);
+ylabel('$z/\delta_i$','FontName','SansSerif','FontSize',36);
+xlabel('$\langle u^\prime w^\prime \rangle/u_{\tau,2}^2$','FontName','SansSerif','FontSize',36);
+ylim([0 4]);
+xlim([-3 0]);
+
+nexttile;
+for i = 2:10
+    if i == 2
+        plot(uw_plot2(i,:)./((U_infty_i(i))^2),z./30,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    else
+        plot(uw_plot2(i,:)./((U_infty_i(i))^2),z./cookeCorr(i),'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+    end
+end
+set(gca,'FontName','SansSerif','FontSize',20);
+ylabel('$z/\delta_i$','FontName','SansSerif','FontSize',36);
+xlabel('$\langle u^\prime w^\prime \rangle/U_i^2$','FontName','SansSerif','FontSize',36);
+ylim([0 4]);
 
 %% 
 
