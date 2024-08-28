@@ -774,15 +774,16 @@ p2 = nexttile;
 %plot(uw_plot(1,:)./(0.12^2),z./30,'k--','LineWidth',2); hold on;
 for i = 2:10
     if i == 2
-        plot(uw_plot2(i,:)./(0.12^2),z./30,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+        plot(uw_plot2(i,:)./((utau(i))^2),z./30,'Color',Cooke_Colors(i),'LineWidth',2); hold on;
     else
-        plot(uw_plot2(i,:)./(0.12^2),z./cookeCorr(i),'Color',Cooke_Colors(i),'LineWidth',2); hold on;
+        plot(uw_plot2(i,:)./((utau(i))^2),z./cookeCorr(i),'Color',Cooke_Colors(i),'LineWidth',2); hold on;
     end
 end
 set(gca,'FontName','SansSerif','FontSize',20);
-ylabel('$z/\hat{\delta}$','FontName','SansSerif','FontSize',36);
-xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,0}$','FontName','SansSerif','FontSize',36);
+ylabel('$z/\delta_i$','FontName','SansSerif','FontSize',36);
+xlabel('$\langle u^\prime w^\prime \rangle/u^2_{\tau,2}$','FontName','SansSerif','FontSize',36);
 ylim([0 4]);
+xlim([-3 0]);
 
 %% RSS with outer scaling
 
