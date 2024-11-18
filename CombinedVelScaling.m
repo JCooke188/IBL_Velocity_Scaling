@@ -397,75 +397,82 @@ Cooke_Colors = ["White","#babd00","#92f240","#00de69","#00b995","#00999c",...
 close all;
 
 figure();
-tiledlayout(3,2)
+tiledlayout(2,3)
 p1 = nexttile;
 for i = 2:N_u-1
-    semilogx(z./(nu/utau(i)),U{i}./utau(i),'^','MarkerSize',8,...
-        'Color',Cooke_Colors(i)); hold on
+    semilogx(z./(nu/utau(i)),U{i}./utau(i),'k^','MarkerSize',8,...
+        'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',18);
 grid on;
-% xlabel('$z^+$');
-ylabel('$U^+$','FontSize',18);
-
-p2 = nexttile;
-for i = 2:N_u-1
-    plot(U{i}./max(U{i}),zdelta,'^','MarkerSize',8,...
-        'Color',Cooke_Colors(i)); hold on
-end
-set(gca,'FontSize',16);
-grid on;
-xlim([0 1]);
-ylim([0 1]);
-% xlabel('$z/\delta$');
-ylabel('$U/U_\infty$','FontSize',18);
+xlabel('$z^+$');
+ylabel('$U^+$');
+title('Cooke24');
 
 p3 = nexttile;
 for i = 1:Np60
     semilogx(P60toP24_y{i}./P60toP24_dnu(i),...
-        P60toP24_U{i}./P60toP24_utau2(i),'+','MarkerSize',8,...
-        'Color',P60toP24_Colors(i)); hold on;
+        P60toP24_U{i}./P60toP24_utau2(i),'ksquare','MarkerSize',8,...
+        'MarkerFaceColor',P60toP24_Colors(i)); hold on;
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',18);
 grid on;
-% xlabel('$z^+$');
-ylabel('$U^+$','FontSize',18);
+xlabel('$z^+$');
+title('Gul22');
+%ylabel('$U^+$','FontSize',18);
+
+p5 = nexttile;
+for i = 1:Li_N
+    semilogx(Li_zplus{i},Li_Uplus{i},'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_7k_Colors(i)); hold on;
+end
+set(gca,'FontSize',18);
+grid on;
+xlabel('$z^+$');
+title('Li21');
+%ylabel('$U^+$','FontSize',18);
+
+p2 = nexttile;
+for i = 2:N_u-1
+    plot(U{i}./max(U{i}),zdelta,'k^','MarkerSize',8,...
+        'MarkerFaceColor',Cooke_Colors(i)); hold on
+end
+set(gca,'FontSize',18);
+grid on;
+xlim([0 1]);
+ylim([0 1]);
+xlabel('$z/\delta$');
+ylabel('$U/U_\infty$','FontSize',18);
+
+
 
 p4 = nexttile;
 for i = 1:Np60
     thisP60U = P60toP24_U{i};
-    plot(thisP60U./P60toP24_Uinf,P60toP24_ydelta{i},'+','MarkerSize',8,...
-        'Color',P60toP24_Colors(i)); hold on;
+    plot(thisP60U./P60toP24_Uinf,P60toP24_ydelta{i},'ksquare','MarkerSize',8,...
+        'MarkerFaceColor',P60toP24_Colors(i)); hold on;
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',18);
 grid on;
 xlim([0 1]);
 ylim([0 1]);
-% xlabel('$z/\delta$');
-ylabel('$U/U_\infty$','FontSize',18);
+xlabel('$z/\delta$');
+%ylabel('$U/U_\infty$','FontSize',18);
 
-p5 = nexttile;
-for i = 1:Li_N
-    semilogx(Li_zplus{i},Li_Uplus{i},'o','MarkerSize',8,...
-        'Color',Li_7k_Colors(i)); hold on;
-end
-set(gca,'FontSize',16);
-grid on;
-xlabel('$z^+$');
-ylabel('$U^+$','FontSize',18);
+
 
 p6 = nexttile;
 for i = 1:Li_N
     thisZ = Li_zdel99{i};
     plot(Li_U{i}./Li_Uinfty(i),thisZ,...
-        'o','MarkerSize',8,'Color',Li_7k_Colors(i)); hold on;
+        'ko','MarkerSize',8,'MarkerFaceColor',Li_7k_Colors(i)); hold on;
 end
-set(gca,'FontSize',16);
+set(gca,'FontSize',18);
 xlim([0 1]);
 ylim([0 1]);
 grid on;
 xlabel('$z/\delta$');
-ylabel('$U/U_\infty$','FontSize',18);
+%ylabel('$U/U_\infty$','FontSize',18);
 
 %% IBL Figures to Create Insets
 
