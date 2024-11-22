@@ -725,6 +725,7 @@ set(gca,'FontSize',20);
 grid on;
 ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
 xlabel('$z/\delta$','FontSize',24);
+xlim([10^(-1) 2.5]);
 %xline(0.2,'k','LineWidth',2);
 
 p3 = nexttile;
@@ -737,6 +738,7 @@ semilogx(gulYD,gulWake,'k--','LineWidth',3);
 set(gca,'FontSize',20);
 grid on;
 xlabel('$z/\delta$','FontSize',24);
+xlim([.75*10^(-1) 2.5]);
 %ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
 %xline(0.2,'k','LineWidth',2);
 
@@ -750,6 +752,7 @@ set(gca,'FontSize',20);
 grid on;
 %ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24)
 xlabel('$z/\delta$','FontSize',24);
+xlim([5*10^(-4) 2.5]);
 %xline(0.2,'k','LineWidth',2);
 
 p2 = nexttile;
@@ -798,6 +801,58 @@ xlabel('$z/\delta_i$','FontSize',24);
 %ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
 %xline(0.2,'k','LineWidth',2);
 
+%%
+
+close all;
+
+tiledlayout(1,3);
+p2 = nexttile;
+for i = 2:N_u-1
+    semilogx(z./cookeCorr(i-1),(U_infty_i(i) - U{i})./utau(i),...
+        'k^','MarkerSize',8,'MarkerFaceColor',Cooke_Colors(i)); hold on
+end
+semilogx(cookeYDi,cookeWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+grid on;
+ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
+xlabel('$z/\delta_i$','FontSize',24);
+xlim([0 1]);
+title('Cooke24');
+%xline(0.2,'k','LineWidth',2);
+
+p4 = nexttile;
+for i = 1:Np60
+    thisVel = P60toP24_U{i};
+    thisDefect = (P60toP24_UinftyIBL(i) - thisVel)./P60toP24_utau2(i);
+    
+    semilogx(P60toP24_yibl{i},thisDefect,...
+        'ksquare','MarkerSize',8,'MarkerFaceColor',P60toP24_Colors(i)); hold on
+end
+% ylim([0 5]);
+semilogx(gulYDi,gulWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+grid on;
+xlabel('$z/\delta_i$','FontSize',24);
+title('Gul22');
+%ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
+xlim([10^-1 1]);
+%xline(0.2,'k','LineWidth',2);
+
+p6 = nexttile;
+for i = 1:Li_N
+    thisZ = Li_zdel99{i}.*Li_delta99(i)./Li_deltai(i);
+    thisDefect = (Li_Udeltai(i) - Li_U{i})./Li_utau(i);
+    semilogx(thisZ,thisDefect,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_7k_Colors(i)); hold on
+end
+semilogx(liYDi,liWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+xlim([0 1]);
+grid on;
+xlabel('$z/\delta_i$','FontSize',24);
+title('Li21');
+%ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
+%xline(0.2,'k','LineWidth',2);
 
 %% Functions
 
