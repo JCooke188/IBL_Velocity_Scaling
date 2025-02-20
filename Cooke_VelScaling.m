@@ -597,12 +597,16 @@ end
 
 close all;
 
+Cooke_Colors = ["White","#babd00","#92f240","#00de69","#00b995","#00999c",...
+    "#007c92","#00627f","#004a70","#0b1b84","White"]; % Yellow to Blue Gradient
+
+
 figure();
 subplot(2,2,1);
 for i = 2:N_u-1
    
     semilogx(z./delta,(U{i}(end) - U{i})./utau(i),...
-        '^','MarkerSize',8,'Color',color12(i-1)); hold on
+        'k^','MarkerSize',8,'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
 semilogx(zdelta,wake,'k--','LineWidth',3);
 set(gca,'FontSize',16);
@@ -618,22 +622,22 @@ legend({'$\hat{x}_1$','$\hat{x}_2$','$\hat{x}_3$',...
 subplot(2,2,2);
 for i = 2:N_u-1
    
-    semilogx(z./delta_ibl(i),(U_infty_i(i) - U{i})./utau(i),...
-        '^','MarkerSize',8,'Color',color12(i-1)); hold on
+    semilogx(z./delta_ibl(i-1),(U_infty_i(i) - U{i})./utau(i),...
+        'k^','MarkerSize',8,'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
 semilogx(thisYD,wake,'k--','LineWidth',3);
 set(gca,'FontSize',16);
 xlabel('$z/\delta_i$','FontSize',18);
 ylabel('$(U_i - U)/u_{\tau,2}$','FontSize',18);
 title('IBL Scaling with Local $u_\tau$');
-% xlim([0 1]);
+xlim([0 1]);
 
 subplot(2,2,3);
 for i = 2:N_u-1
     thisZS = (U_infty(i) - U{i})./u0(i);
     
     semilogx(zdelta,thisZS,...
-        '^','MarkerSize',8,'Color',color12(i-1)); hold on
+        'k^','MarkerSize',8,'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
 set(gca,'FontSize',16);
 xlabel('$z/\delta$','FontSize',18);
@@ -646,19 +650,21 @@ subplot(2,2,4);
 for i = 2:N_u-1
     thisZS = (U_infty_i(i) - U{i})./u0_i(i);
     thisZ = z;
-    this_zibl = thisZ./delta_ibl(i);
+    this_zibl = thisZ./delta_ibl(i-1);
     
-    semilogx(this_zibl,thisZS,'^','MarkerSize',8,...
-        'Color',color12(i-1)); hold on
+    semilogx(this_zibl,thisZS,'k^','MarkerSize',8,...
+        'MarkerFaceColor',Cooke_Colors(i)); hold on
 end
 set(gca,'FontSize',16);
-% xlim([0 1]);
+xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',18);
 ylabel('$(U_i - U)/U_i\delta_i^*/\delta_i$','FontSize',18);
 title('ZS Scaling with IBL Parameters');
 
-
+%%
 %%%%%% Linear Plotting
+
+close all;
 
 figure();
 subplot(2,2,1);
