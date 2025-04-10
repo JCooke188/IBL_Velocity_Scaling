@@ -1061,7 +1061,6 @@ set(gca,'FontSize',20);
 xlabel('$z/\delta$','FontSize',28);
 title('Re14ks16','FontSize',24);
 ylabel('$(U_\infty - U)/u_{\tau,2}$','FontSize',28)
-xlim([10^-1 1])
 
 p2 = nexttile;
 for i = 1:ks_theseLengths(2)
@@ -1072,7 +1071,6 @@ semilogx(ks_thisYD{2},ks_wake{2},'k--','LineWidth',3);
 set(gca,'FontSize',20);
 xlabel('$z/\delta$','FontSize',28);
 title('Re15ks23','FontSize',24);
-xlim([10^-1 1])
 
 p3 = nexttile;
 for i = 1:ks_theseLengths(3)
@@ -1083,7 +1081,6 @@ semilogx(ks_thisYD{3},ks_wake{3},'k--','LineWidth',3);
 set(gca,'FontSize',20);
 xlabel('$z/\delta$','FontSize',28);
 title('Re14ks11','FontSize',24);
-xlim([10^-1 1])
 
 
 
@@ -1098,10 +1095,9 @@ for i = 1:ks_theseLengths(1)
 end
 semilogx(ks_thisYDi{1},ks_wake_ibl{1},'k--','LineWidth',3);
 set(gca,'FontSize',20);
-% xlim([0 1]);
+xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',28);
-xlim([10^-1 1])
 
 p6 = nexttile;
 for i = 1:ks_theseLengths(2)
@@ -1112,8 +1108,7 @@ for i = 1:ks_theseLengths(2)
 end
 semilogx(ks_thisYDi{2},ks_wake_ibl{2},'k--','LineWidth',3);
 set(gca,'FontSize',20);
-xlim([10^-1 1])
-%xlim([0 1]);
+xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 
 p5 = nexttile;
@@ -1125,8 +1120,7 @@ for i = 1:ks_theseLengths(3)
 end
 semilogx(ks_thisYDi{3},ks_wake_ibl{3},'k--','LineWidth',3);
 set(gca,'FontSize',20);
-%xlim([0 1]);
-xlim([10^-1 1])
+xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',28);
 
@@ -1370,7 +1364,6 @@ xlabel('$z/\delta$','FontSize',28);
 title('Re07ks16','FontSize',28);
 ylabel('$(U_\infty - \langle U \rangle)/U_\infty\delta^*/\delta$',...
     'FontSize',28);
-xlim([10^-1 1])
 
 p2 = nexttile;
 for i = 1:theseLengths(2)
@@ -1382,7 +1375,6 @@ end
 set(gca,'FontSize',20);
 xlabel('$z/\delta$','FontSize',28);
 title('Re10ks16','FontSize',28);
-xlim([10^-1 1])
 
 p3 = nexttile;
 for i = 1:theseLengths(3)
@@ -1394,7 +1386,6 @@ end
 set(gca,'FontSize',20);
 xlabel('$z/\delta$','FontSize',28);
 title('Re14ks16','FontSize',28);
-xlim([10^-1 1])
 
 p4 = nexttile;
 for i = 1:theseLengths(4)
@@ -1406,7 +1397,6 @@ end
 set(gca,'FontSize',20);
 xlabel('$z/\delta$','FontSize',28);
 title('Re21ks16','FontSize',28);
-xlim([10^-1 1])
 
 %%%%%%%% Bottom Row ZS Scaling with IBL Parameters
 p5 = nexttile;
@@ -1419,7 +1409,7 @@ for i = 1:theseLengths(1)
         'MarkerFaceColor',Li_7k_Colors(i)); hold on
 end
 set(gca,'FontSize',20);
-xlim([10^-1 1])
+xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 ylabel('$(U_i - \langle U \rangle )/U_i\delta_i^*/\delta_i$','FontSize',28);
 
@@ -1433,7 +1423,7 @@ for i = 1:theseLengths(2)
         'MarkerFaceColor',Li_10k_Colors(i)); hold on
 end
 set(gca,'FontSize',20);
-xlim([10^-1 1])
+xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 
 p7 = nexttile;
@@ -1446,7 +1436,7 @@ for i = 1:theseLengths(3)
         'MarkerFaceColor',Li_14k_Colors_1(i)); hold on
 end
 set(gca,'FontSize',20);
-xlim([10^-1 1])
+xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 
 p8 = nexttile;
@@ -1459,7 +1449,7 @@ for i = 1:theseLengths(4)
         'MarkerFaceColor',Li_21k_Colors(i)); hold on
 end
 set(gca,'FontSize',20);
-xlim([10^-1 1])
+xlim([0 1]);
 xlabel('$z/\delta_i$','FontSize',28);
 
 %% Plot ZS Scaling Group ks
@@ -1555,26 +1545,9 @@ close all;
 
 figure('units','pixels','position',[0 0 600 600]);
 for i = 1:numel(ks_11_zdel99)
-    semilogx(ks_11_zdel99{i},ks_11_uuplus{i},'ko','MarkerSize',8, ...
-        'MarkerFaceColor',Li_ks11_Colors(i)); hold on
+    semilogx(ks_11_zdel99{i},ks_11_uuplus{i},'ko','MarkerSize',8 ...
+        'MarkerFaceColor',Li_ks11_Colors(i));
 end
-set(gca,'FontSize',20);
-xlabel('$z/\delta_{99}$');
-ylabel('$u^\prime u^\prime/U_{\tau,2}^2$')
-
-figure('units','pixels','position',[600 0 600 600]);
-for i = 1:numel(ks_11_zdel99)
-    thisZ = ks_11_zdel99{i};
-    this_zibl = thisZ.*ks_delta99{3}(i)./ks_delta_ibl{3}(i);
-    this_upup = ks_11_uuplus{i}.*((ks_utau{3}(i))^2);
-    this_upupibl = this_upup./(ks_11_Udelta_ibl(i)^2);
-
-    semilogx(this_zibl,this_upupibl,'ko','MarkerSize',8, ...
-        'MarkerFaceColor',Li_ks11_Colors(i)); hold on
-end
-set(gca,'FontSize',20);
-xlabel('$z/\delta_{99}$');
-ylabel('$u^\prime u^\prime/U_{\tau,2}^2$')
 
 
 
