@@ -8,7 +8,7 @@ set(0,'defaultTextInterpreter','latex');
 
 %% Load Gul Data
 
-genData = load('./ExperimentalData/Gul 2022/generalData.txt');
+genData = load('./ExperimentalData/Gul 2022/generalData.txt','-ASCII');
 
 % P24 to S row 1
 % P60 to P24 row 7
@@ -23,7 +23,7 @@ P60toP24_Uinf = genData(7,1);
 P60toP24_utau1 = genData(7,2);
 P60toP24_delta0 = genData(7,3);
 
-P24toS_data = load('./ExperimentalData/Gul 2022/P24toS/P24toS.txt');
+P24toS_data = load('./ExperimentalData/Gul 2022/P24toS/P24toS.txt','-ASCII');
 P24toS_data = P24toS_data(2:end,:); % Removes x = -1.5 data point
 P24toS_xhat = P24toS_data(:,1);
 P24toS_dibl = P24toS_data(:,2).*P24toS_delta0;
@@ -39,7 +39,7 @@ for i = 1:P24toS_N
     thisFolder = myDir.folder;
     
     thisFile = strcat(thisFolder,'/',thisName);
-    thisData = load(thisFile);
+    thisData = load(thisFile,'-ASCII');
     
     P24toS_ydelta{i} = thisData(:,1);
     P24toS_velDefect{i} = thisData(:,2);
@@ -48,7 +48,7 @@ end
 
 clear this*
 
-P60toP24_data = load('./ExperimentalData/Gul 2022/P60toP24/P60toP24.txt');
+P60toP24_data = load('./ExperimentalData/Gul 2022/P60toP24/P60toP24.txt','-ASCII');
 P60toP24_data = P60toP24_data(2:end,:); % remove first data point at x=-1.5
 P60toP24_xhat = P60toP24_data(:,1);
 P60toP24_dibl = P60toP24_data(:,2).*P60toP24_delta0;
@@ -65,7 +65,7 @@ for i = 1:Np60
     thisFolder = myDir.folder;
     
     thisFile = strcat(thisFolder,'/',thisName);
-    thisData = load(thisFile);
+    thisData = load(thisFile,'-ASCII');
     
     P60toP24_ydelta{i} = thisData(:,1);
     P60toP24_velDefect{i} = thisData(:,2);
@@ -76,7 +76,7 @@ clear this* myDir
 
 %% Load Li Data
 
-BL_Data = load('./ExperimentalData/Li et al 2021/Re07ks16/Re07ks16_BL');
+BL_Data = load('./ExperimentalData/Li et al 2021/Re07ks16/Re07ks16_BL','-ASCII');
 
 Li_xhat = BL_Data(:,1);
 Li_Uinfty = BL_Data(:,2);
@@ -93,7 +93,7 @@ for i = 1:Li_N
     myName = myDir(i).name;
     myFolder = myDir(i).folder;
     
-    data = load(strcat(myFolder,'/',myName));
+    data = load(strcat(myFolder,'/',myName),'-ASCII');
     
     Li_zplus{i} = flipud(data(:,1));
     Li_zdel99{i} = flipud(data(:,2));
@@ -800,6 +800,120 @@ grid on;
 xlabel('$z/\delta_i$','FontSize',24);
 %ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
 %xline(0.2,'k','LineWidth',2);
+
+%% 
+
+% 2x2 and 2x1
+% Experiments
+% Classic: Li; Gul
+% IBL: Li; Gul
+
+% WMLES 
+% Classic: Cooke
+% IBL: Cooke
+
+close all;
+
+figure('units','pixels','position',[0 0 800 600]);
+tiledlayout(2,2)
+sgtitle('Experimental Datasets','FontSize',24)
+
+p5 = nexttile;
+for i = 1:Li_N
+    p1 = semilogx(Li_zdel99{i},Li_UvelDef{i},'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_7k_Colors(i)); hold on
+end
+semilogx(liYD,liWake,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+grid on;
+ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24)
+xlabel('$z/\delta$','FontSize',24);
+xlim([5*10^(-4) 2.5]);
+
+%xline(0.2,'k','LineWidth',2);
+
+p3 = nexttile;
+for i = 1:Np60
+    semilogx(P60toP24_ydelta{i},...
+        P60toP24_velDefect{i}.*(P60toP24_utau1/P60toP24_utau2(i)),...
+        'ksquare','MarkerSize',8,'MarkerFaceColor',P60toP24_Colors(i)); hold on
+end
+semilogx(gulYD,gulWake,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+grid on;
+xlabel('$z/\delta$','FontSize',24);
+xlim([.75*10^(-1) 2.5]);
+%ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
+%xline(0.2,'k','LineWidth',2);
+
+p6 = nexttile;
+for i = 1:Li_N
+    thisZ = Li_zdel99{i}.*Li_delta99(i)./Li_deltai(i);
+    thisDefect = (Li_Udeltai(i) - Li_U{i})./Li_utau(i);
+    semilogx(thisZ,thisDefect,'ko','MarkerSize',8,...
+        'MarkerFaceColor',Li_7k_Colors(i)); hold on
+end
+semilogx(liYDi,liWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+xlim([0 1]);
+grid on;
+xlabel('$z/\delta_i$','FontSize',24);
+ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
+%xline(0.2,'k','LineWidth',2);
+
+p4 = nexttile;
+for i = 1:Np60
+    thisVel = P60toP24_U{i};
+    thisDefect = (P60toP24_UinftyIBL(i) - thisVel)./P60toP24_utau2(i);
+    
+    semilogx(P60toP24_yibl{i},thisDefect,...
+        'ksquare','MarkerSize',8,'MarkerFaceColor',P60toP24_Colors(i)); hold on
+end
+% ylim([0 5]);
+semilogx(gulYDi,gulWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+grid on;
+xlabel('$z/\delta_i$','FontSize',24);
+%ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
+xlim([10^-1 1]);
+%xline(0.2,'k','LineWidth',2);
+
+
+
+
+figure('units','pixels','position',[0 0 400 600]);
+tiledlayout(2,1);
+p1 = nexttile;
+for i = 2:N_u-1
+   
+    semilogx(z./delta,(U{i}(end) - U{i})./utau(i),...
+        'k^','MarkerSize',8,'MarkerFaceColor',Cooke_Colors(i)); hold on
+end
+semilogx(zdelta,cookeWake,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+grid on;
+ylabel('$(U_\infty - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
+xlabel('$z/\delta$','FontSize',24);
+xlim([10^(-1) 2.5]);
+%xline(0.2,'k','LineWidth',2);
+sgtitle('WMLES Dataset','FontSize',24)
+
+p2 = nexttile;
+for i = 2:N_u-1
+   
+    semilogx(z./cookeCorr(i-1),(U_infty_i(i) - U{i})./utau(i),...
+        'k^','MarkerSize',8,'MarkerFaceColor',Cooke_Colors(i)); hold on
+end
+semilogx(cookeYDi,cookeWakeIBL,'k--','LineWidth',3);
+set(gca,'FontSize',20);
+grid on;
+ylabel('$(U_i - \langle U \rangle)/u_{\tau,2}$','FontSize',24);
+xlabel('$z/\delta_i$','FontSize',24);
+xlim([0 1]);
+%xline(0.2,'k','LineWidth',2);
+
+
+
 
 %%
 
